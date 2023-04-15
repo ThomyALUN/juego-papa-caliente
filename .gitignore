@@ -54,3 +54,6 @@ venv.bak/
 
 # mkdocs documentation
 /site
+
+# omisiones propias
+prueba.py
