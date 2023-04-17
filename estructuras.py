@@ -24,6 +24,14 @@ class Queue:
     def search(self,item):
         '''Método propio: Determina si un elemento esta en la cola'''
         return item in self._items
+    def copy(self):
+        '''Método propio: Retorna una copia de la cola'''
+        copia=Queue()
+        for item in reversed(self._items):
+            copia.enqueue(item)
+        return copia
+    def show(self):
+        print(self._items)
 
 class CtrldrPapaCaliente(Queue):
     '''Controlador del juego de la papa caliente'''
@@ -76,15 +84,18 @@ class CtrldrPapaCaliente(Queue):
         print(f"La persona que tiene la papa caliente es: {self.peek()}")
 
 if __name__=="__main__":
+    pass
     controlador=CtrldrPapaCaliente("Thomas")
     controlador.agregarListaPjs(["Carlos","Yolanda","Thomas","Luke"])
     controlador.mostrarJugadores()
+    cola2=controlador.copy()
+    cola2.show()
 
-    controlador.iniciarJuego()
-    controlador.moverPapa()
-    controlador.mostrarJugadores()
+    # controlador.iniciarJuego()
+    # controlador.moverPapa()
+    # controlador.mostrarJugadores()
 
-    while controlador.size()>1:
-        controlador.jugarRonda()
-        controlador.mostrarJugadores()
+    # while controlador.size()>1:
+    #     controlador.jugarRonda()
+    #     controlador.mostrarJugadores()
 
