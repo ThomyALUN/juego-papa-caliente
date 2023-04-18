@@ -10,9 +10,10 @@ DEFAULT_COLORS=["aqua","blueviolet","chartreuse4","chocolate2","crimson","darkor
 
 class JuegoPapa:
     '''Clase que controla el funcionamiento del programa y del juego'''
-    def __init__(self, ancho:int=1280, alto:int=720, tamanioTitulo:int=50, tamanioNombres:int=30, 
-                distanciaJugadores:int=120, colorPapa:tuple=(191, 142, 61, 0.8), radioPapa:int=10,
-                vectores=40, rutaFondoJuego:str="multimedia/images/fondoJuego.jpg"):
+    def __init__(self, ancho:int=1280, alto:int=720, tamanioTitulo:int=50, tamanioNombres:int=30, distanciaJugadores:int=120, 
+                colorPapa:tuple=(191, 142, 61, 0.8), radioPapa:int=10, vectores=40, rutaMusicaFondo:str="multimedia/music/backgroundSong.mp3", 
+                rutaFondoJuego:str="multimedia/images/fondoJuego.jpg", rutaMusicaTitulo:str="multimedia/music/titleSong.wav",
+                rutaMusicaDerrota:str="multimedia/music/defeatSong.mp3", rutaMusicaVictoria:str="multimedia/music/victorySong.mp3"):
         '''Método constructor de la clase JuegoPapa. Establece los valores iniciales de las variables más importantes. 
         Todos sus parámetros son opcionales, para permitir una fácil modificación en caso de que se desee'''
         self._ancho=ancho
@@ -30,12 +31,17 @@ class JuegoPapa:
         self.jugadorEliminado=None
         self.vectores=vectores
         self.vectoresPorGraficar=0
+        self.musicaFondo=rutaMusicaFondo
+        self.musicaTitulo=rutaMusicaTitulo
+        self.musicaDerrota=rutaMusicaDerrota
+        self.musicaVictoria=rutaMusicaVictoria
 
         self.colaCoords = Queue()
         self.colaJugadores = Queue()
 
         # Inicializar Pygame
         pygame.init()
+        pygame.mixer.init()
         pygame.display.set_caption("Juego de la papa caliente")
         self.pantalla = pygame.display.set_mode((self._ancho, self._alto))
         self.reloj = pygame.time.Clock()
@@ -94,7 +100,7 @@ class JuegoPapa:
 
     def generarTiempoAleatorio(self):
         inicioRonda=pygame.time.get_ticks()   
-        duracion=randint(self.numJugadores*3, self.numJugadores*4)*1000 # Este valor debe estar en milisegundos 
+        duracion=randint(self.numJugadores*2, self.numJugadores*4)*1000 # Este valor debe estar en milisegundos 
         self.finRonda=inicioRonda+duracion
         print(duracion)
         self.tiempoGenerado=True
@@ -150,8 +156,12 @@ class JuegoPapa:
         rectanguloTexto = texto.get_rect()
         rectanguloTexto.centerx = (self._ancho/2)
         rectanguloTexto.centery = (self._alto/2-100)
+        if not pygame.mixer.music.get_busy():
+            if self.nombreJugador!=nombreActual:
+                self.ponerMusica(self.musicaDerrota)
+            else:
+                self.ponerMusica(self.musicaVictoria)
         self.ponerFondo()
-        self.ponerTitulo()
         self.pantalla.blit(texto, rectanguloTexto)
         pygame.draw.circle(self.pantalla, DEFAULT_COLORS[0], coordsJugActual, radioCirculo)
         pygame.draw.circle(self.pantalla, (0,0,0), coordsJugActual, radioCirculo+4, 4)
@@ -169,10 +179,15 @@ class JuegoPapa:
     def refrescarJuego(self):
         '''Refresca el juego cada segundo para mantener los elementos gráficos actualizados'''
         self.ponerFondo()
-        self.ponerTitulo()
         self.ubicarJugadores()
         pygame.draw.circle(self.pantalla, self.colorPapa, self.coordsPapa, self.radioPapa)
         pygame.display.update()
+
+    def ponerMusica(self, archivo):
+        pygame.mixer.music.unload()
+        pygame.mixer.music.load(archivo)
+        pygame.mixer.music.play(-1)
+
 
     def ponerTitulo(self):
         '''Pone en pantalla el título del juego según los parámetros definidos en el método generarTitulo()'''
@@ -181,6 +196,8 @@ class JuegoPapa:
     def cicloPrincipal(self):
         '''Ciclo principal de ejecución del juego'''
         running=True
+        self.ponerTitulo()
+        self.ponerMusica(self.musicaFondo)
         while running:
             if self.numJugadores>1:
                 if not self.tiempoGenerado:
@@ -196,6 +213,8 @@ class JuegoPapa:
                         self.tiempoGenerado=False
                         self.finRonda=None
                         if self.numJugadores==1:
+                            pygame.mixer.music.fadeout(1000)
+                            pygame.time.wait(500)
                             continue
 
                 self.prevPersonaPapa=self.personaPapa
@@ -237,11 +256,12 @@ class JuegoPapa:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         running=False
+                
                 self.mostrarGanador()
             self.reloj.tick(40)
 
 if __name__=="__main__":
     juego=JuegoPapa()
     juego.setNombreJugador("Carlitos")
-    juego.setJugadores(7)
+    juego.setJugadores(3)
     juego.cicloPrincipal()
