@@ -10,10 +10,10 @@ DEFAULT_COLORS=["aqua","blueviolet","chartreuse4","chocolate2","crimson","darkor
 
 class JuegoPapa:
     '''Clase que controla el funcionamiento del programa y del juego'''
-    def __init__(self, ancho:int=1280, alto:int=720, tamanioTitulo:int=50, tamanioNombres:int=30, distanciaJugadores:int=120, 
-                colorPapa:tuple=(191, 142, 61, 0.8), radioPapa:int=10, vectores=40, rutaMusicaFondo:str="multimedia/music/backgroundSong.mp3", 
+    def __init__(self, ancho:int=1280, alto:int=720, distanciaJugadores:int=120, colorPapa:tuple=(191, 142, 61, 0.8), 
+                radioPapa:int=10, vectores=40, rutaMusicaFondo:str="multimedia/music/backgroundSong.mp3", 
                 rutaFondoJuego:str="multimedia/images/fondoJuego.jpg", rutaMusicaTitulo:str="multimedia/music/titleSong.wav",
-                rutaMusicaDerrota:str="multimedia/music/defeatSong.mp3", rutaMusicaVictoria:str="multimedia/music/victorySong.mp3"):
+                rutaMusicaDerrota:str="multimedia/music/defeatSong.mp3", rutaMusicaVictoria:str="multimedia/music/victorySong.wav"):
         '''Método constructor de la clase JuegoPapa. Establece los valores iniciales de las variables más importantes. 
         Todos sus parámetros son opcionales, para permitir una fácil modificación en caso de que se desee'''
         self._ancho=ancho
@@ -48,8 +48,9 @@ class JuegoPapa:
         self.fondoJuego = pygame.image.load(rutaFondoJuego)
 
         self.diccFuentes={}
-        self.configurarFuente("titulo", tamanioTitulo)
-        self.configurarFuente("nombres", tamanioNombres)
+        self.configurarFuente("titulo", 50)
+        self.configurarFuente("nombres", 30)
+        self.configurarFuente("resultado", 40)
         self.generarTitulo()
 
 
@@ -100,7 +101,7 @@ class JuegoPapa:
 
     def generarTiempoAleatorio(self):
         inicioRonda=pygame.time.get_ticks()   
-        duracion=randint(self.numJugadores*2, self.numJugadores*4)*1000 # Este valor debe estar en milisegundos 
+        duracion=randint(self.numJugadores*2, self.numJugadores*5)*1000 # Este valor debe estar en milisegundos 
         self.finRonda=inicioRonda+duracion
         print(duracion)
         self.tiempoGenerado=True
@@ -152,17 +153,29 @@ class JuegoPapa:
         radioCirculo=30
         nombreActual=self.colaJugadores.peek()
         coordsJugActual=(self._ancho/2, self._alto/2)
-        texto = self.diccFuentes["nombres"].render(nombreActual, True, (20, 20, 20))
-        rectanguloTexto = texto.get_rect()
-        rectanguloTexto.centerx = (self._ancho/2)
-        rectanguloTexto.centery = (self._alto/2-100)
-        if not pygame.mixer.music.get_busy():
-            if self.nombreJugador!=nombreActual:
+        textoNombre = self.diccFuentes["nombres"].render(nombreActual, True, (20, 20, 20))
+        subTitulo = self.diccFuentes["resultado"].render("El último jugador en pie es...", True, (20, 20, 20))
+        if self.nombreJugador!=nombreActual:
+            resultado=self.diccFuentes["resultado"].render("¡Has perdido!", True, (20, 20, 20))
+            if not pygame.mixer.music.get_busy():
                 self.ponerMusica(self.musicaDerrota)
-            else:
+        else:
+            resultado=self.diccFuentes["resultado"].render("¡Has ganado!", True, (20, 20, 20))
+            if not pygame.mixer.music.get_busy():
                 self.ponerMusica(self.musicaVictoria)
+        rectTxtNombre = textoNombre.get_rect()
+        rectTxtNombre.centerx = (self._ancho/2)
+        rectTxtNombre.centery = (self._alto/2-100)
+        rectSubTitulo = subTitulo.get_rect()
+        rectSubTitulo.centerx = (self._ancho/2)
+        rectSubTitulo.centery = (self._alto/2-200)
+        rectResultado = resultado.get_rect()
+        rectResultado.centerx = (self._ancho/2)
+        rectResultado.centery = (self._alto/2+150)
         self.ponerFondo()
-        self.pantalla.blit(texto, rectanguloTexto)
+        self.pantalla.blit(subTitulo, rectSubTitulo)
+        self.pantalla.blit(textoNombre, rectTxtNombre)
+        self.pantalla.blit(resultado, rectResultado)
         pygame.draw.circle(self.pantalla, DEFAULT_COLORS[0], coordsJugActual, radioCirculo)
         pygame.draw.circle(self.pantalla, (0,0,0), coordsJugActual, radioCirculo+4, 4)
         pygame.display.update() 
@@ -188,6 +201,10 @@ class JuegoPapa:
         pygame.mixer.music.load(archivo)
         pygame.mixer.music.play(-1)
 
+    def esperarCierre(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running=False
 
     def ponerTitulo(self):
         '''Pone en pantalla el título del juego según los parámetros definidos en el método generarTitulo()'''
@@ -195,10 +212,10 @@ class JuegoPapa:
 
     def cicloPrincipal(self):
         '''Ciclo principal de ejecución del juego'''
-        running=True
+        self.running=True
         self.ponerTitulo()
         self.ponerMusica(self.musicaFondo)
-        while running:
+        while self.running:
             if self.numJugadores>1:
                 if not self.tiempoGenerado:
                     self.generarTiempoAleatorio()
@@ -215,6 +232,7 @@ class JuegoPapa:
                         if self.numJugadores==1:
                             pygame.mixer.music.fadeout(1000)
                             pygame.time.wait(500)
+                            self.esperarCierre()
                             continue
 
                 self.prevPersonaPapa=self.personaPapa
@@ -228,7 +246,7 @@ class JuegoPapa:
 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        running=False
+                        self.running=False
                     elif (self.vectoresPorGraficar==0 and self.nombreJugador==self.personaPapa 
                         and self.nombreJugador==self.prevPersonaPapa and event.type==pygame.KEYDOWN
                         and event.key==pygame.K_SPACE):
@@ -255,7 +273,7 @@ class JuegoPapa:
             else:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        running=False
+                        self.running=False
                 
                 self.mostrarGanador()
             self.reloj.tick(40)
