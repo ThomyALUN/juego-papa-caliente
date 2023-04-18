@@ -1,3 +1,5 @@
+import time
+from random import randint
 from math import sin, cos, pi
 
 def calcularVerticesPoligono(numLados:int, xCentro:float, yCentro:float, distanciaRadial:float):
@@ -13,3 +15,8 @@ def calcularVerticesPoligono(numLados:int, xCentro:float, yCentro:float, distanc
     else:
         ajuste=(numLados-4)//2
         return listaCoords[-ajuste:]+listaCoords[0:-ajuste]
+
+def generarAleatorio(limInf, limSup, multInf, multSup):
+    '''Genera un valor '''
+    tiempoExtra=randint(limInf*multInf, limSup*multSup) 
+    return tiempoExtra
