@@ -5,12 +5,12 @@ import sys
 pygame.init()
 
 # Definir el tamaño de la pantalla
-screen_width = 800
-screen_height = 600
+screen_width = 150
+screen_height = 150
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 # Cargar la imagen de sprites
-sprite_sheet = pygame.image.load("juego-papa-caliente/32_Characters/Males/M_02.png").convert_alpha()
+sprite_sheet = pygame.image.load("32_Characters/Males/M_02.png").convert_alpha()
 
 # Definir las dimensiones de cada sprite    
 sprite_width = 64
@@ -32,6 +32,25 @@ def draw_sprite(row, column):
     # Retorna el sprite creado
     return sprite
 
+def girar_derecha():
+    global current_row, current_column, current_sprite
+    # Incrementa la columna del sprite actual
+    current_row = 1
+    current_column = 1
+    current_sprite.kill()
+    # Muestra el nuevo sprite en la misma posición que el anterior
+    current_sprite = draw_sprite(current_row, current_column)
+
+def girar_izquierda():
+    global current_row, current_column, current_sprite
+    # Incrementa la columna del sprite actual
+    current_row = 1
+    current_column = 3
+    current_sprite.kill()
+    # Muestra el nuevo sprite en la misma posición que el anterior
+    current_sprite = draw_sprite(current_row, current_column)
+
+    
 # Variables para llevar el seguimiento del sprite actual
 current_row = 0
 current_column = 0
@@ -41,15 +60,6 @@ current_sprite = draw_sprite(current_row, current_column)
 TIMER_EVENT = pygame.USEREVENT + 1
 pygame.time.set_timer(TIMER_EVENT, 2000) # 2000 milisegundos = 2 segundos
 
-# Función para cambiar el sprite mostrado
-def change_sprite():
-    global current_row, current_column, current_sprite
-    # Incrementa la columna del sprite actual
-    current_row = 1
-    current_column = 1
-    current_sprite.kill()
-    # Muestra el nuevo sprite en la misma posición que el anterior
-    current_sprite = draw_sprite(current_row, current_column)
 
 
 # Ejecutar el ciclo del juego
@@ -69,7 +79,7 @@ while True:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 # Cambia el sprite mostrado al presionar la tecla espacio
-                change_sprite()
+                girar_izquierda()
 
     # Actualizar la pantalla
     pygame.display.update()
