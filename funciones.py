@@ -1,5 +1,4 @@
-import time
-from random import randint
+import random
 from math import sin, cos, pi
 
 def calcularVerticesPoligono(numLados:int, xCentro:float, yCentro:float, distanciaRadial:float):
@@ -15,8 +14,27 @@ def calcularVerticesPoligono(numLados:int, xCentro:float, yCentro:float, distanc
     else:
         ajuste=(numLados-4)//2
         return listaCoords[-ajuste:]+listaCoords[0:-ajuste]
+    
 
-def generarAleatorio(limInf, limSup, multInf, multSup):
-    '''Genera un valor '''
-    tiempoExtra=randint(limInf*multInf, limSup*multSup) 
-    return tiempoExtra
+def nombresAleatorios(cantidadP):
+    """
+    Crea una lista de nombres aleatorios sin repetición.
+
+    Parámetros:
+    cantidadP (int): la cantidad de personas que van a jugar.
+
+    Retorna:
+    Una lista con `cantidadP` de nombres aleatorios seleccionados al azar de la lista `nombres`.
+    """
+    nombres=["Thomas", "María", "Alejandra", "Ana", "Jeronimo", "Juan", "Brahian", "Pedro", 
+            "Gabriela", "Camilo", "Sofia", "Andres", "Valery", "Pepe", "Juanita", "Luis",
+            "Clara", "Adrian", "Veronica", "Santiago", "Valentina", "Miguel", "Manuela",
+            "Manuel", "Gina", "Stiven", "Dana", "Sara", "Jessica", "Jhon", "Esteban", "David"]
+    lista=[]
+    i=cantidadP
+    while i != 0:
+        aleatorio = random.choice(nombres)
+        if aleatorio not in lista: 
+            lista.append(aleatorio)
+            i-=1
+    return lista
