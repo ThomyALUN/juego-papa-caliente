@@ -5,7 +5,11 @@ class Sprite:
         self.rutaImagen = rutaImagen
         self.x = x
         self.y = y
-        
+    
+    def set_x_y(self,x,y):
+        self.x = x
+        self.y = y   
+    
     def draw_sprite(self, row, column):
         # Cargar la imagen de sprites
         sprite_sheet = pygame.image.load(self.rutaImagen).convert_alpha()
