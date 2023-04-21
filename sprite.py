@@ -32,29 +32,29 @@ class Sprite:
         # Retorna el sprite creado
         return sprite
     
-    def pos_inicial(self):      #Dibuja el sprite en la posicion inicial
+    def posInicial(self):      #Dibuja el sprite en la posicion inicial
         # Incrementa la columna del sprite actual
         fila = 0
         columna = 0
         
         # Muestra el nuevo sprite en la misma posición que el anterior
-        current_sprite = self.draw_sprite(fila, columna)        
+        current_sprite = self.drawSprite(fila, columna)        
     
     
-    def girar_derecha(self):
+    def girarDerecha(self):
         # Incrementa la columna del sprite actual
         fila = 1
         columna = 1
         
         # Muestra el nuevo sprite en la misma posición que el anterior
-        current_sprite = self.draw_sprite(fila, columna)
+        current_sprite = self.drawSprite(fila, columna)
         
-    def girar_izquierda(self):
+    def girarIzquierda(self):
         # Incrementa la columna del sprite actual
         fila = 1
         columna = 3
         # Muestra el nuevo sprite en la misma posición que el anterior
-        current_sprite = self.draw_sprite(fila, columna)
+        current_sprite = self.drawSprite(fila, columna)
     
 if __name__ == '__main__':
     pygame.init()
@@ -67,12 +67,12 @@ if __name__ == '__main__':
     x = 100
     y = 100
     sprite = Sprite("32_Characters/Males/M_02.png",x,y)
-    sprite.pos_inicial()
+    sprite.posInicial()
 
     x_2 = 300
     y_2 = 100
     sprite_2 = Sprite("32_Characters/Males/M_01.png",x_2,y_2)
-    sprite_2.pos_inicial()
+    sprite_2.posInicial()
     
     # Ejecutar el ciclo del juego
     while True:
@@ -87,8 +87,8 @@ if __name__ == '__main__':
                 if event.key == pygame.K_SPACE:
                     # Cambia el sprite mostrado al presionar la tecla espacio
                     
-                    sprite.girar_izquierda()
-                    sprite_2.girar_derecha()
+                    sprite.girarIzquierda()
+                    sprite_2.girarDerecha()
 
         # Actualizar la pantalla
         pygame.display.update()
