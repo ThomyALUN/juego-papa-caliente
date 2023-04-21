@@ -6,11 +6,11 @@ class Sprite:
         self.x = x
         self.y = y
     
-    def set_x_y(self,x,y):
+    def setXY(self,x,y):
         self.x = x
         self.y = y   
     
-    def draw_sprite(self, row, column):
+    def drawSprite(self, row, column):
         # Cargar la imagen de sprites
         sprite_sheet = pygame.image.load(self.rutaImagen).convert_alpha()
         # Definir las dimensiones de cada sprite    
