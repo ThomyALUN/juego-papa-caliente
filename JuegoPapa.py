@@ -1,3 +1,4 @@
+import os
 import time
 import pygame
 from random import randint
@@ -49,7 +50,16 @@ class JuegoPapa:
 
         # Inicializar Pygame
         pygame.init()
-        pygame.mixer.init()
+        try:
+            pygame.mixer.init()
+        except pygame.error:
+            self.musicaEjecutable=False
+        else:
+            if any(not os.path.exists(self.musicaDerrota), not os.path.exists(self.musicaVictoria), 
+                   not os.path.exists(self.musicaFondo), not os.path.exists(self.musicaTitulo)):
+                self.musicaEjecutable=False
+            else:
+                self.musicaEjecutable=True
         pygame.display.set_caption("Juego de la papa caliente")
         self.pantalla = pygame.display.set_mode((self._ancho, self._alto))
         self.reloj = pygame.time.Clock()
@@ -213,11 +223,14 @@ class JuegoPapa:
         self.rectsGanador=(rectTxtNombre, rectSubTitulo, rectResultado)
 
     def mostrarGanador(self):
-        if not pygame.mixer.music.get_busy():
-            if self.nombreJugador!=self.nombreGanador:
-                self.ponerMusica(self.musicaDerrota)
-            else:
-                self.ponerMusica(self.musicaVictoria)
+        try:
+            if not pygame.mixer.music.get_busy():
+                if self.nombreJugador!=self.nombreGanador:
+                    self.ponerMusica(self.musicaDerrota)
+                else:
+                    self.ponerMusica(self.musicaVictoria)
+        except pygame.error:
+            pass
         self.ponerFondo()
         self.mostarPerdedores()
         self.pantalla.blit(self.textosGanador[1], self.rectsGanador[1])
@@ -268,9 +281,12 @@ class JuegoPapa:
         pygame.display.update()
 
     def ponerMusica(self, archivo):
-        pygame.mixer.music.unload()
-        pygame.mixer.music.load(archivo)
-        pygame.mixer.music.play(-1)
+        try:
+            pygame.mixer.music.unload()
+            pygame.mixer.music.load(archivo)
+            pygame.mixer.music.play(-1)
+        except pygame.error:
+            pass
 
     def esperarCierre(self):
         for event in pygame.event.get():
@@ -301,7 +317,10 @@ class JuegoPapa:
                         self.tiempoGenerado=False
                         self.finRonda=None
                         if self.numJugadores==1:
-                            pygame.mixer.music.fadeout(1000)
+                            try:
+                                pygame.mixer.music.fadeout(1000)
+                            except pygame.error:
+                                pass
                             pygame.time.wait(500)
                             self.generarGanador()
                             self.esperarCierre()
@@ -354,6 +373,6 @@ class JuegoPapa:
 if __name__=="__main__":
     juego=JuegoPapa()
     juego.setNombreJugador("Carlitos")
-    juego.setJugadores(3)
+    juego.setJugadores(10)
     juego.llenarDiccSprites()
     juego.cicloPrincipal()
