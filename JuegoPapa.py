@@ -55,8 +55,8 @@ class JuegoPapa:
         except pygame.error:
             self.musicaEjecutable=False
         else:
-            if any(not os.path.exists(self.musicaDerrota), not os.path.exists(self.musicaVictoria), 
-                   not os.path.exists(self.musicaFondo), not os.path.exists(self.musicaTitulo)):
+            if any([not os.path.exists(self.musicaDerrota), not os.path.exists(self.musicaVictoria), 
+                not os.path.exists(self.musicaFondo), not os.path.exists(self.musicaTitulo)]):
                 self.musicaEjecutable=False
             else:
                 self.musicaEjecutable=True
@@ -74,6 +74,7 @@ class JuegoPapa:
         self.generarTitulo()
 
     def llenarDiccSprites(self):
+        '''Se encarga de seleccionar sprites de manera aleatoria para los jugadores'''
         colaCopia=self.colaJugadores.copy()
         for i in range(self.numJugadores):
             nombreJug=colaCopia.dequeue()
@@ -102,6 +103,7 @@ class JuegoPapa:
             self.numJugadores=None
 
     def generarCoordenadas(self):
+        '''Genera las coordenadas en las que deben ubicarse los jugadores en pantalla'''
         self.distanciaRadial = self.distanciaJugadores/(2*sin(pi/self.numJugadores))
         centroX=self._ancho/2+self.difX
         centroY=self._alto/2+self.difY
@@ -133,6 +135,7 @@ class JuegoPapa:
         self.colaJugadores.show()
 
     def generarTiempoAleatorio(self):
+        '''Genera un valor de tiempo aleatorio para que termine la ronda y salga un jugador'''
         inicioRonda=pygame.time.get_ticks()   
         duracion=randint(self.numJugadores*2, self.numJugadores*5)*1000 # Este valor debe estar en milisegundos 
         duracion=5000
@@ -203,6 +206,7 @@ class JuegoPapa:
             self.pantalla.blit(texto, rectanguloTexto)
 
     def generarGanador(self):
+        '''Se encarga de generar los elementos gráficos de la sección donde se muestra al ganador'''
         self.nombreGanador=self.colaJugadores.peek()
         self.coordsGanador=((self._ancho/2+self.difX), self._alto/2)
         spriteJugador=self.diccSprites[self.nombreGanador]
@@ -223,6 +227,7 @@ class JuegoPapa:
         self.rectsGanador=(rectTxtNombre, rectSubTitulo, rectResultado)
 
     def mostrarGanador(self):
+        '''Muestra los elementos gráficos de la sección del ganador en la ventana y pone la música de fondo'''
         try:
             if not pygame.mixer.music.get_busy():
                 if self.nombreJugador!=self.nombreGanador:
@@ -241,9 +246,10 @@ class JuegoPapa:
         pygame.display.update() 
 
     def mostarPerdedores(self):
+        '''Muestra los perdedores que han ido saliendo en orden'''
         cantPerd=len(self.listaPerdedores)
         if cantPerd>0:
-            offsetY=-120+20*(self.numJugadores)
+            offsetY=-150+20*(self.numJugadores+cantPerd)
             tituloPerd=self.diccFuentes["tituloPerdedores"].render("Orden de salida", True, (20, 20, 20))
             rectTitPerd=tituloPerd.get_rect()
             rectTitPerd.center = ( (self._ancho/4 , self._alto/4 - offsetY) )
@@ -281,12 +287,13 @@ class JuegoPapa:
         pygame.display.update()
 
     def ponerMusica(self, archivo):
-        try:
-            pygame.mixer.music.unload()
-            pygame.mixer.music.load(archivo)
-            pygame.mixer.music.play(-1)
-        except pygame.error:
-            pass
+        if self.musicaEjecutable:
+            try:
+                pygame.mixer.music.unload()
+                pygame.mixer.music.load(archivo)
+                pygame.mixer.music.play(-1)
+            except pygame.error:
+                pass
 
     def esperarCierre(self):
         for event in pygame.event.get():
@@ -372,7 +379,8 @@ class JuegoPapa:
 
 if __name__=="__main__":
     juego=JuegoPapa()
+    juego.musicaEjecutable=False
     juego.setNombreJugador("Carlitos")
-    juego.setJugadores(10)
+    juego.setJugadores(8)
     juego.llenarDiccSprites()
     juego.cicloPrincipal()
