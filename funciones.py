@@ -1,3 +1,4 @@
+import os
 import random
 from math import sin, cos, pi
 
@@ -16,7 +17,7 @@ def calcularVerticesPoligono(numLados:int, xCentro:float, yCentro:float, distanc
         return listaCoords[-ajuste:]+listaCoords[0:-ajuste]
     
 
-def nombresAleatorios(cantidadP):
+def nombresAleatorios(cantidadP:int):
     """
     Crea una lista de nombres aleatorios sin repetición.
 
@@ -38,3 +39,24 @@ def nombresAleatorios(cantidadP):
             lista.append(aleatorio)
             i-=1
     return lista
+
+def buscarSprites(carpetaPpal:str):
+
+    listaRutas = []
+
+    rutaHombres = os.path.join(carpetaPpal, "Males")
+    rutaMujeres = os.path.join(carpetaPpal, "Females")
+
+    spritesHombres = os.listdir(rutaHombres)
+    spritesMujeres = os.listdir(rutaMujeres)
+
+    for elemento in spritesHombres:
+        rutaCompleta = os.path.join(rutaHombres, elemento)
+        listaRutas.append(rutaCompleta)
+    for elemento in spritesMujeres:
+        rutaCompleta = os.path.join(rutaMujeres, elemento)
+        listaRutas.append(rutaCompleta)
+
+    return listaRutas
+
+print(buscarSprites("sprites"))

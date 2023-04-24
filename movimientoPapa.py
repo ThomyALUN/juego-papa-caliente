@@ -1,16 +1,16 @@
-import pygame
 import time
+import pygame
 from random import randint
 from math import sin, pi
 
+from ControlSprite import ControlSprite
 from estructuras import Queue
-from funciones import calcularVerticesPoligono, nombresAleatorios
+from funciones import calcularVerticesPoligono, nombresAleatorios, buscarSprites
 
-DEFAULT_COLORS=["aqua","blueviolet","chartreuse4","chocolate2","crimson","darkorchid","darksalmon", "khaki3","lightpink4","limegreen"]
 
 class JuegoPapa:
     '''Clase que controla el funcionamiento del programa y del juego'''
-    def __init__(self, ancho:int=1280, alto:int=720, distanciaJugadores:int=120, colorPapa:tuple=(191, 142, 61, 0.8), 
+    def __init__(self, ancho:int=1280, alto:int=720, distanciaJugadores:int=100, colorPapa:tuple=(191, 142, 61, 0.8), 
                 radioPapa:int=10, vectores:int=40, rutaMusicaFondo:str="multimedia/music/backgroundSong.mp3", 
                 rutaFondoJuego:str="multimedia/images/fondoJuego.jpg", rutaMusicaTitulo:str="multimedia/music/titleSong.wav",
                 rutaMusicaDerrota:str="multimedia/music/defeatSong.mp3", rutaMusicaVictoria:str="multimedia/music/victorySong.wav"):
@@ -39,6 +39,11 @@ class JuegoPapa:
         self.musicaDerrota=rutaMusicaDerrota
         self.musicaVictoria=rutaMusicaVictoria
 
+        self.difX=0
+        self.difY=0
+        self.diccSprites = {}
+        self.listaSprites = buscarSprites("sprites")
+        self.listaPerdedores = []
         self.colaCoords = Queue()
         self.colaJugadores = Queue()
 
@@ -54,12 +59,24 @@ class JuegoPapa:
         self.configurarFuente("titulo", 50)
         self.configurarFuente("nombres", 30)
         self.configurarFuente("resultado", 40)
+        self.configurarFuente("tituloPerdedores", 30)
+        self.configurarFuente("nombrePerdedores", 25)
         self.generarTitulo()
 
+    def llenarDiccSprites(self):
+        colaCopia=self.colaJugadores.copy()
+        for i in range(self.numJugadores):
+            nombreJug=colaCopia.dequeue()
+            contrldrSprite=ControlSprite(self.listaSprites[i], self.pantalla, None, None)
+            self.diccSprites[nombreJug]=contrldrSprite
 
     def setNombreJugador(self, nombreJugador:str):
         '''Recibe como parámetro el nombre del jugador y lo asigna a un atributo de la instancia de la clase JuegoPapa'''
-        self.vaciarCola()
+        self.vaciarColaJug()
+        self.difX=0
+        self.difY=0
+        self.diccSprites={}
+        self.listaPerdedores=[]
         self.nombreJugador=nombreJugador
         self.colaJugadores.enqueue(nombreJugador)
 
@@ -76,12 +93,13 @@ class JuegoPapa:
 
     def generarCoordenadas(self):
         self.distanciaRadial = self.distanciaJugadores/(2*sin(pi/self.numJugadores))
-        listaCoords=calcularVerticesPoligono(self.numJugadores, self._ancho/2, self._alto/2, self.distanciaRadial)
+        centroX=self._ancho/2+self.difX
+        centroY=self._alto/2+self.difY
+        listaCoords=calcularVerticesPoligono(self.numJugadores, centroX, centroY, self.distanciaRadial)
         self.colaCoords=Queue()
         for item in listaCoords:
             self.colaCoords.enqueue(item)
         self.colaCoordsGrafica=self.colaCoords.copy()
-        self.colaCoords.show()
         self.personaPapa=self.colaJugadores.peek()
         self.coordsPapa=pygame.math.Vector2(self.colaCoords.peek())
         self.coordsActual=self.colaCoords.peek()
@@ -94,9 +112,11 @@ class JuegoPapa:
             jugador=self.colaJugadores.dequeue()
             self.colaJugadores.show()
             if jugador==self.jugadorEliminado:
-                pass
+                self.listaPerdedores.append(jugador)
+                self.difX=100
             else:
                 self.colaJugadores.enqueue(jugador)
+        print(self.listaPerdedores)
         self.numJugadores-=1
         self.generarCoordenadas()
         self.colaJugadoresGrafica=self.colaJugadores.copy()
@@ -105,11 +125,12 @@ class JuegoPapa:
     def generarTiempoAleatorio(self):
         inicioRonda=pygame.time.get_ticks()   
         duracion=randint(self.numJugadores*2, self.numJugadores*5)*1000 # Este valor debe estar en milisegundos 
+        duracion=5000
         self.finRonda=inicioRonda+duracion
         print(duracion)
         self.tiempoGenerado=True
 
-    def vaciarCola(self):
+    def vaciarColaJug(self):
         '''Se encarga de vaciar la cola con los nombres de jugadores'''
         self.colaJugadores.clear()
 
@@ -134,14 +155,13 @@ class JuegoPapa:
 
     def ubicarJugadores(self):
         '''Ubica a cada jugador en lugar que le corresponde en la ventana'''
-        radioCirculo = 30
         for i in range(self.numJugadores):
             coordsJugActual=self.colaCoordsGrafica.dequeue()
             self.colaCoordsGrafica.enqueue(coordsJugActual)
             nombreActual=self.colaJugadoresGrafica.dequeue()
             self.colaJugadoresGrafica.enqueue(nombreActual)
             texto = self.diccFuentes["nombres"].render(nombreActual, True, (20, 20, 20)) 
-            vectorDireccion=pygame.math.Vector2( [coordsJugActual[0] - (self._ancho/2), coordsJugActual[1] - (self._alto/2)] )
+            vectorDireccion=pygame.math.Vector2( [coordsJugActual[0] - (self._ancho/2+self.difX), coordsJugActual[1] - (self._alto/2)] )
             vectorDireccion=vectorDireccion.normalize()
             if abs(vectorDireccion.x)>=0.9:
                 vectorDireccion.x*=90
@@ -151,13 +171,32 @@ class JuegoPapa:
             rectanguloTexto = texto.get_rect()
             rectanguloTexto.centerx = (coordsJugActual[0] + vectorDireccion.x)
             rectanguloTexto.centery = (coordsJugActual[1] + vectorDireccion.y)
-            pygame.draw.circle(self.pantalla, DEFAULT_COLORS[i], coordsJugActual, radioCirculo)
-            pygame.draw.circle(self.pantalla, (0,0,0), coordsJugActual, radioCirculo+4, 4)
+            spriteJugador=self.diccSprites[nombreActual]
+            spriteJugador.setXY(coordsJugActual[0], coordsJugActual[1])
+            if self.vectoresPorGraficar>0 and nombreActual in self.jugadoresPase:
+                if nombreActual==self.jugadoresPase[0]:
+                    if self.vectorX>0:
+                        spriteJugador.girarDerecha()
+                    elif self.vectorX<0:
+                        spriteJugador.girarIzquierda()
+                    else:
+                        spriteJugador.posInicial()
+                elif nombreActual==self.jugadoresPase[1]:
+                    if self.vectorX>0:
+                        spriteJugador.girarIzquierda()
+                    elif self.vectorX<0:
+                        spriteJugador.girarDerecha()
+                    else:
+                        spriteJugador.posInicial()
+            else:
+                spriteJugador.posInicial()
             self.pantalla.blit(texto, rectanguloTexto)
 
     def generarGanador(self):
         self.nombreGanador=self.colaJugadores.peek()
-        self.coordsGanador=(self._ancho/2, self._alto/2)
+        self.coordsGanador=((self._ancho/2+self.difX), self._alto/2)
+        spriteJugador=self.diccSprites[self.nombreGanador]
+        spriteJugador.setXY(self.coordsGanador[0], self.coordsGanador[1])
         textoNombre = self.diccFuentes["nombres"].render(self.nombreGanador, True, (20, 20, 20))
         subTitulo = self.diccFuentes["resultado"].render("El último jugador en pie es...", True, (20, 20, 20))
         if self.nombreJugador!=self.nombreGanador:
@@ -166,30 +205,50 @@ class JuegoPapa:
             resultado=self.diccFuentes["resultado"].render("¡Has ganado!", True, (20, 20, 20))
         self.textosGanador=(textoNombre, subTitulo, resultado)
         rectTxtNombre = textoNombre.get_rect()
-        rectTxtNombre.centerx = (self._ancho/2)
-        rectTxtNombre.centery = (self._alto/2-100)
+        rectTxtNombre.center = ( (self._ancho/2+self.difX), (self._alto/2-100) )
         rectSubTitulo = subTitulo.get_rect()
-        rectSubTitulo.centerx = (self._ancho/2)
-        rectSubTitulo.centery = (self._alto/2-200)
+        rectSubTitulo.center = ( (self._ancho/2+self.difX), (self._alto/2-200) )
         rectResultado = resultado.get_rect()
-        rectResultado.centerx = (self._ancho/2)
-        rectResultado.centery = (self._alto/2+150)
+        rectResultado.center = ( (self._ancho/2+self.difX), (self._alto/2+150) )
         self.rectsGanador=(rectTxtNombre, rectSubTitulo, rectResultado)
 
     def mostrarGanador(self):
-        radioCirculo=30
         if not pygame.mixer.music.get_busy():
             if self.nombreJugador!=self.nombreGanador:
                 self.ponerMusica(self.musicaDerrota)
             else:
                 self.ponerMusica(self.musicaVictoria)
         self.ponerFondo()
+        self.mostarPerdedores()
         self.pantalla.blit(self.textosGanador[1], self.rectsGanador[1])
         self.pantalla.blit(self.textosGanador[0], self.rectsGanador[0])
         self.pantalla.blit(self.textosGanador[2], self.rectsGanador[2])
-        pygame.draw.circle(self.pantalla, DEFAULT_COLORS[0], self.coordsGanador, radioCirculo)
-        pygame.draw.circle(self.pantalla, (0,0,0), self.coordsGanador, radioCirculo+4, 4)
+        spriteJugador=self.diccSprites[self.nombreGanador]
+        spriteJugador.posInicial()
         pygame.display.update() 
+
+    def mostarPerdedores(self):
+        cantPerd=len(self.listaPerdedores)
+        if cantPerd>0:
+            offsetY=-120+20*(self.numJugadores)
+            tituloPerd=self.diccFuentes["tituloPerdedores"].render("Orden de salida", True, (20, 20, 20))
+            rectTitPerd=tituloPerd.get_rect()
+            rectTitPerd.center = ( (self._ancho/4 , self._alto/4 - offsetY) )
+            self.pantalla.blit(tituloPerd, rectTitPerd)
+            
+            for i in range(cantPerd):
+                nombreActual=self.listaPerdedores[i]
+                coordY= self._alto/4 + (i+1)*50 - offsetY 
+                mensaje=f"{i+1}. {nombreActual}"
+                texto = self.diccFuentes["nombrePerdedores"].render(mensaje, True, (20, 20, 20))
+                rectanguloTexto = texto.get_rect()
+                rectanguloTexto.center = ( (self._ancho/4 - 40, coordY) )
+                spriteJugador=self.diccSprites[nombreActual]
+                spriteJugador.setXY(self._ancho/4 + 40, coordY)
+                spriteJugador.setEscala(40,43)
+                spriteJugador.posInicial()
+                self.pantalla.blit(texto, rectanguloTexto)
+
 
     def ponerFondo(self):
         tamanioImagen=[self.fondoJuego.get_width(), self.fondoJuego.get_height()]
@@ -204,6 +263,7 @@ class JuegoPapa:
         '''Refresca el juego cada segundo para mantener los elementos gráficos actualizados'''
         self.ponerFondo()
         self.ubicarJugadores()
+        self.mostarPerdedores()
         pygame.draw.circle(self.pantalla, self.colorPapa, self.coordsPapa, self.radioPapa)
         pygame.display.update()
 
@@ -277,9 +337,10 @@ class JuegoPapa:
                 elif self.prevPersonaPapa!=self.personaPapa:
                     inicio=time.time()
                     self.vectoresPorGraficar=self.vectores
-                    vectorX=(self.coordsActual[0]-self.coordsPrev[0])/self.vectoresPorGraficar
-                    vectorY=(self.coordsActual[1]-self.coordsPrev[1])/self.vectoresPorGraficar
-                    vectorDireccion=pygame.Vector2(vectorX, vectorY)
+                    self.vectorX=(self.coordsActual[0]-self.coordsPrev[0])/self.vectoresPorGraficar
+                    self.vectorY=(self.coordsActual[1]-self.coordsPrev[1])/self.vectoresPorGraficar
+                    vectorDireccion=pygame.Vector2(self.vectorX, self.vectorY)
+                    self.jugadoresPase=[self.prevPersonaPapa, self.personaPapa]
                 else:
                     self.refrescarJuego()
             else:
@@ -288,10 +349,11 @@ class JuegoPapa:
                         self.running=False
                 
                 self.mostrarGanador()
-            self.reloj.tick(40)
+            self.reloj.tick(60)
 
 if __name__=="__main__":
     juego=JuegoPapa()
     juego.setNombreJugador("Carlitos")
     juego.setJugadores(3)
+    juego.llenarDiccSprites()
     juego.cicloPrincipal()
