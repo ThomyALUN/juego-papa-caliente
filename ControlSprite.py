@@ -1,6 +1,7 @@
 import pygame
 
 class ControlSprite:
+    '''Clase utilizada para la creación de un sprite'''
     def __init__(self, rutaImagen:str, pantalla:pygame.surface.Surface, x:int, y:int, escalaX:int=64, escalaY:int=68):
         self.rutaImagen = rutaImagen
         self.pantalla=pantalla
@@ -16,10 +17,14 @@ class ControlSprite:
         self.escalaY=escalaY
 
     def setXY(self, x, y):
+        '''Permite cambiar las coordenadas x y y en dónde se dibujará el sprite.
+        Recibe como parámetros: coordenada en 'x' y coordenada en 'y'.'''
         self.x = x
         self.y = y   
     
     def dibujarSprite(self, row:int, column:int):
+        '''Dibuja un sprite en la pantalla.
+        Recibe como parámetros: fila y columna del sprite que se quiere dibujar.'''
         # Cargar la imagen de sprites
         hojaSprite = pygame.image.load(self.rutaImagen).convert_alpha()
         # Definir las dimensiones de cada sprite
@@ -44,16 +49,19 @@ class ControlSprite:
         self.grupoSprite.draw(self.pantalla)
     
     def posInicial(self):
+        '''Dibuja el sprite de frente'''
         fila = 0
         columna = 0
         self.dibujarSprite(fila, columna)        
     
     def girarDerecha(self):
+        '''Dibuja el sprite mirando hacia la derecha'''
         fila = 1
         columna = 1
         self.dibujarSprite(fila, columna)  
         
     def girarIzquierda(self):
+        '''Dibuja el sprite mirando hacia la izquierda'''
         fila = 1
         columna = 3
         self.dibujarSprite(fila, columna)  
