@@ -18,7 +18,7 @@ def calcularVerticesPoligono(numLados:int, xCentro:float, yCentro:float, distanc
     
 
 def nombresAleatorios(cantidadP:int):
-    """
+    '''
     Crea una lista de nombres aleatorios sin repetición.
 
     Parámetros:
@@ -26,7 +26,7 @@ def nombresAleatorios(cantidadP:int):
 
     Retorna:
     Una lista con `cantidadP` de nombres aleatorios seleccionados al azar de la lista `nombres`.
-    """
+    '''
     nombres=["Thomas", "María", "Alejandra", "Ana", "Jeronimo", "Juan", "Brahian", "Pedro", 
             "Gabriela", "Camilo", "Sofia", "Andres", "Valery", "Pepe", "Juanita", "Luis",
             "Clara", "Adrian", "Veronica", "Santiago", "Valentina", "Miguel", "Manuela",
@@ -41,7 +41,9 @@ def nombresAleatorios(cantidadP:int):
     return lista
 
 def buscarSprites(carpetaPpal:str):
-
+    '''Se encarga de revisar las carpetas que contienen los sprites y retorna las rutas en una lista. 
+    Recibe como parámetro el nombre de la carpeta donde se encuentran los sprites
+    '''
     listaRutas = []
 
     rutaHombres = os.path.join(carpetaPpal, "Males")
@@ -59,4 +61,11 @@ def buscarSprites(carpetaPpal:str):
 
     return listaRutas
 
-print(buscarSprites("sprites"))
+lista=buscarSprites("sprites")
+print(lista)
+dato1=lista[0]
+print(dato1)
+dato1Mod=dato1.split(".")[0]
+print(dato1Mod)
+if dato1Mod[-1].lower()=="c":
+    print("tiene cola")

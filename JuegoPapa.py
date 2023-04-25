@@ -1,7 +1,7 @@
 import os
 import time
 import pygame
-from random import randint
+from random import randint, shuffle
 from math import sin, pi
 
 from ControlSprite import ControlSprite
@@ -12,11 +12,13 @@ from funciones import calcularVerticesPoligono, nombresAleatorios, buscarSprites
 class JuegoPapa:
     '''Clase que controla el funcionamiento del programa y del juego'''
     def __init__(self, ancho:int=1280, alto:int=720, distanciaJugadores:int=100, colorPapa:tuple=(191, 142, 61, 0.8), 
-                radioPapa:int=10, vectores:int=40, rutaMusicaFondo:str="multimedia/music/backgroundSong.mp3", 
+                radioPapa:int=10, rutaMusicaFondo:str="multimedia/music/backgroundSong.mp3", 
                 rutaFondoJuego:str="multimedia/images/fondoJuego.jpg", rutaMusicaTitulo:str="multimedia/music/titleSong.wav",
                 rutaMusicaDerrota:str="multimedia/music/defeatSong.mp3", rutaMusicaVictoria:str="multimedia/music/victorySong.wav"):
         '''Método constructor de la clase JuegoPapa. Establece los valores iniciales de las variables más importantes. 
         Todos sus parámetros son opcionales, para permitir una fácil modificación en caso de que se desee'''
+        self.debug=False
+        self.dificultad=0
         self._ancho=ancho
         self._alto=alto
         self.numJugadores=None
@@ -33,7 +35,7 @@ class JuegoPapa:
         self.finRonda=None
         self.tiempoGenerado=False
         self.jugadorEliminado=None
-        self.vectores=vectores
+        self.vectores=50
         self.vectoresPorGraficar=0
         self.musicaFondo=rutaMusicaFondo
         self.musicaTitulo=rutaMusicaTitulo
@@ -73,12 +75,52 @@ class JuegoPapa:
         self.configurarFuente("nombrePerdedores", 25)
         self.generarTitulo()
 
+    def configDificultad(self, nivel:int):
+        '''Cambia el nivel de dificultad del juego. Recibe como parámetro el nuevo nivel de dificultad.'''
+        # 0 -> Fácil,
+        # 1 -> Estándar/Normal,
+        # 2 -> Díficil
+        self.dificultad=nivel
+        if self.dificultad==0:
+            self.vectores=50
+        elif self.dificultad==1:
+            self.vectores=35
+        else:
+            self.vectores=20
+
+    def iniciarJuego(self):
+        '''Se encarga de iniciar el funcionamiento del juego como tal, mostrando los personajes,
+        la papa y sus respectivas animaciones'''
+        pass
+
+    def pausarJuego(self):
+        '''Se encarga de poner el juego en un estado de pausa'''
+        pass
+
+    def reanudarJuego(self):
+        '''Se encarga de reanudar el juego desde el estado de pausa'''
+        pass
+
+    def volverMenuPpal(self):
+        '''Se encarga de cerrar la sesión de juego y volver al menú principal'''
+        pass
+
+    def selecSpriteJug(self, rutaSprite):
+        '''Se selecciona el sprite del jugador'''
+        self.spriteJugador=rutaSprite
+        contrldrSprite=ControlSprite(self.spriteJugador, self.pantalla, None, None)
+        self.diccSprites[self.nombreJugador]=contrldrSprite
+
     def llenarDiccSprites(self):
         '''Se encarga de seleccionar sprites de manera aleatoria para los jugadores'''
         colaCopia=self.colaJugadores.copy()
-        for i in range(self.numJugadores):
+        colaCopia.dequeue()
+        spritesRandom=self.listaSprites[:]
+        spritesRandom.remove(self.spriteJugador)
+        shuffle(spritesRandom)
+        for i in range(self.numJugadores-1):
             nombreJug=colaCopia.dequeue()
-            contrldrSprite=ControlSprite(self.listaSprites[i], self.pantalla, None, None)
+            contrldrSprite=ControlSprite(spritesRandom[i], self.pantalla, None, None)
             self.diccSprites[nombreJug]=contrldrSprite
 
     def setNombreJugador(self, nombreJugador:str):
@@ -120,9 +162,7 @@ class JuegoPapa:
         '''Se encarga de eliminar a un jugador en el momento en que la papa deja de moverse'''
         print(f"El jugador a eliminar es {self.jugadorEliminado}")
         for i in range(self.numJugadores):
-            self.colaJugadores.show()
             jugador=self.colaJugadores.dequeue()
-            self.colaJugadores.show()
             if jugador==self.jugadorEliminado:
                 self.listaPerdedores.append(jugador)
                 self.difX=100
@@ -132,15 +172,16 @@ class JuegoPapa:
         self.numJugadores-=1
         self.generarCoordenadas()
         self.colaJugadoresGrafica=self.colaJugadores.copy()
-        self.colaJugadores.show()
 
     def generarTiempoAleatorio(self):
         '''Genera un valor de tiempo aleatorio para que termine la ronda y salga un jugador'''
         inicioRonda=pygame.time.get_ticks()   
-        duracion=randint(self.numJugadores*2, self.numJugadores*5)*1000 # Este valor debe estar en milisegundos 
-        duracion=5000
-        self.finRonda=inicioRonda+duracion
+        if not self.debug:
+            duracion=randint(self.numJugadores*2, self.numJugadores*(5-self.dificultad))*1000 # Este valor debe estar en milisegundos 
+        else:
+            duracion=5000
         print(duracion)
+        self.finRonda=inicioRonda+duracion
         self.tiempoGenerado=True
 
     def vaciarColaJug(self):
@@ -203,6 +244,13 @@ class JuegoPapa:
                         spriteJugador.posInicial()
             else:
                 spriteJugador.posInicial()
+            if nombreActual==self.nombreJugador:
+                rectNombreJug = texto.get_rect()
+                rectNombreJug.width+=10
+                rectNombreJug.height+=8
+                rectNombreJug.centerx = (coordsJugActual[0] + vectorDireccion.x)
+                rectNombreJug.centery = (coordsJugActual[1] + vectorDireccion.y)
+                pygame.draw.rect(self.pantalla, (200, 10, 10), rectNombreJug, 0, 10)
             self.pantalla.blit(texto, rectanguloTexto)
 
     def generarGanador(self):
@@ -266,10 +314,17 @@ class JuegoPapa:
                 spriteJugador.setXY(self._ancho/4 + 40, coordY)
                 spriteJugador.setEscala(40,43)
                 spriteJugador.posInicial()
+                if nombreActual==self.nombreJugador:
+                    rectNombreJug = texto.get_rect()
+                    rectNombreJug.width+=10
+                    rectNombreJug.height+=4
+                    rectNombreJug.center=(self._ancho/4 - 40, coordY)
+                    pygame.draw.rect(self.pantalla, (200, 10, 10), rectNombreJug, 0, 10)
                 self.pantalla.blit(texto, rectanguloTexto)
 
 
     def ponerFondo(self):
+        '''Carga la imagen de fondo y la pone en pantalla'''
         tamanioImagen=[self.fondoJuego.get_width(), self.fondoJuego.get_height()]
         if self._ancho >= (tamanioImagen[0] + 180) and self._alto >= (tamanioImagen[1] + 180):
             posImagen = [ 
@@ -284,9 +339,13 @@ class JuegoPapa:
         self.ubicarJugadores()
         self.mostarPerdedores()
         pygame.draw.circle(self.pantalla, self.colorPapa, self.coordsPapa, self.radioPapa)
+        pygame.draw.circle(self.pantalla, (0,0,0), self.coordsPapa, self.radioPapa, self.radioPapa//6)
         pygame.display.update()
 
-    def ponerMusica(self, archivo):
+    def ponerMusica(self, archivo:str):
+        '''Pone la música de fondo.
+        Recibe como parámetro la ruta donde se encuentra el archivo 
+        que contiene el recurso de audio'''
         if self.musicaEjecutable:
             try:
                 pygame.mixer.music.unload()
@@ -294,11 +353,6 @@ class JuegoPapa:
                 pygame.mixer.music.play(-1)
             except pygame.error:
                 pass
-
-    def esperarCierre(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.running=False
 
     def ponerTitulo(self):
         '''Pone en pantalla el título del juego según los parámetros definidos en el método generarTitulo()'''
@@ -325,12 +379,12 @@ class JuegoPapa:
                         self.finRonda=None
                         if self.numJugadores==1:
                             try:
-                                pygame.mixer.music.fadeout(1000)
+                                if self.musicaEjecutable:
+                                    pygame.mixer.music.fadeout(1000)
                             except pygame.error:
                                 pass
                             pygame.time.wait(500)
                             self.generarGanador()
-                            self.esperarCierre()
                             continue
 
                 self.prevPersonaPapa=self.personaPapa
@@ -379,8 +433,11 @@ class JuegoPapa:
 
 if __name__=="__main__":
     juego=JuegoPapa()
+    # juego.debug=True
+    juego.configDificultad(2)
     juego.musicaEjecutable=False
     juego.setNombreJugador("Carlitos")
+    juego.selecSpriteJug("sprites\Males\M_01.png")
     juego.setJugadores(8)
     juego.llenarDiccSprites()
     juego.cicloPrincipal()

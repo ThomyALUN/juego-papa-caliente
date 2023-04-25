@@ -20,8 +20,12 @@ class ControlSprite:
     def drawSprite(self, row, column):
         # Cargar la imagen de sprites
         sprite_sheet = pygame.image.load(self.rutaImagen).convert_alpha()
-        # Definir las dimensiones de cada sprite    
-        sprite_width = 64
+        # Definir las dimensiones de cada sprite
+        rutaSinFmt=self.rutaImagen.split(".")[0]
+        if row==column==0 and rutaSinFmt[-1].lower()=="c":
+            sprite_width = 60
+        else:
+            sprite_width = 64
         sprite_height = 68
         sprite_rect = pygame.Rect(column * sprite_width, row * sprite_height, sprite_width, sprite_height)
         sprite_image = sprite_sheet.subsurface(sprite_rect)
@@ -34,8 +38,7 @@ class ControlSprite:
         sprite.rect.centerx = self.x
         sprite.rect.centery = self.y
         
-        #Mete el sprite al grupo de sprites
-        
+        #Mete el sprite al grupo de sprites   
         self.grupoSprite = pygame.sprite.Group()
         self.grupoSprite.add(sprite)
         self.grupoSprite.draw(self.pantalla)
