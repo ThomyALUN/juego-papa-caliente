@@ -17,23 +17,23 @@ class ControlSprite:
         self.x = x
         self.y = y   
     
-    def drawSprite(self, row, column):
+    def dibujarSprite(self, row, column):
         # Cargar la imagen de sprites
-        sprite_sheet = pygame.image.load(self.rutaImagen).convert_alpha()
+        hojaSprite = pygame.image.load(self.rutaImagen).convert_alpha()
         # Definir las dimensiones de cada sprite
         rutaSinFmt=self.rutaImagen.split(".")[0]
         if row==column==0 and rutaSinFmt[-1].lower()=="c":
-            sprite_width = 60
+            anchoSprite = 60
         else:
-            sprite_width = 64
-        sprite_height = 68
-        sprite_rect = pygame.Rect(column * sprite_width, row * sprite_height, sprite_width, sprite_height)
-        sprite_image = sprite_sheet.subsurface(sprite_rect)
-        sprite_image = pygame.transform.scale(sprite_image, (self.escalaX, self.escalaY))
-        #crear objeto de sprite
+            anchoSprite = 64
+        alturaSprite = 68
+        rectSprite = pygame.Rect(column * anchoSprite, row * alturaSprite, anchoSprite, alturaSprite)
+        imagenSprite = hojaSprite.subsurface(rectSprite)
+        imagenSprite = pygame.transform.scale(imagenSprite, (self.escalaX, self.escalaY))
+        # Crear objeto de sprite
         sprite = pygame.sprite.Sprite()
-        sprite.image = sprite_image
-        sprite.rect = sprite_image.get_rect()
+        sprite.image = imagenSprite
+        sprite.rect = imagenSprite.get_rect()
 
         sprite.rect.centerx = self.x
         sprite.rect.centery = self.y
@@ -44,28 +44,19 @@ class ControlSprite:
         self.grupoSprite.draw(self.pantalla)
     
     def posInicial(self):      #Dibuja el sprite en la posicion inicial
-        # Incrementa la columna del sprite actual
         fila = 0
         columna = 0
-        
-        # Muestra el nuevo sprite en la misma posición que el anterior
-        self.drawSprite(fila, columna)        
-    
+        self.dibujarSprite(fila, columna)        
     
     def girarDerecha(self):
-        # Incrementa la columna del sprite actual
         fila = 1
         columna = 1
-        
-        # Muestra el nuevo sprite en la misma posición que el anterior
-        self.drawSprite(fila, columna)  
+        self.dibujarSprite(fila, columna)  
         
     def girarIzquierda(self):
-        # Incrementa la columna del sprite actual
         fila = 1
         columna = 3
-        # Muestra el nuevo sprite en la misma posición que el anterior
-        self.drawSprite(fila, columna)  
+        self.dibujarSprite(fila, columna)  
     
 if __name__ == '__main__':
     pygame.init()
@@ -104,4 +95,3 @@ if __name__ == '__main__':
 
         # Actualizar la pantalla
         pygame.display.update()
-    
