@@ -9,7 +9,9 @@ class ControlSprite:
         self.escalaX=escalaX
         self.escalaY=escalaY
     
-    def setEscala(self, escalaX, escalaY):
+    def setEscala(self, escalaX:int, escalaY:int):
+        '''Permite cambiar la escala final en que se graficará el sprite. 
+        Recibe como parámetros: el valor horizontal y el valor vertical de la escala'''
         self.escalaX=escalaX
         self.escalaY=escalaY
 
@@ -17,7 +19,7 @@ class ControlSprite:
         self.x = x
         self.y = y   
     
-    def dibujarSprite(self, row, column):
+    def dibujarSprite(self, row:int, column:int):
         # Cargar la imagen de sprites
         hojaSprite = pygame.image.load(self.rutaImagen).convert_alpha()
         # Definir las dimensiones de cada sprite
@@ -34,16 +36,14 @@ class ControlSprite:
         sprite = pygame.sprite.Sprite()
         sprite.image = imagenSprite
         sprite.rect = imagenSprite.get_rect()
-
         sprite.rect.centerx = self.x
         sprite.rect.centery = self.y
-        
         #Mete el sprite al grupo de sprites   
         self.grupoSprite = pygame.sprite.Group()
         self.grupoSprite.add(sprite)
         self.grupoSprite.draw(self.pantalla)
     
-    def posInicial(self):      #Dibuja el sprite en la posicion inicial
+    def posInicial(self):
         fila = 0
         columna = 0
         self.dibujarSprite(fila, columna)        
@@ -57,7 +57,7 @@ class ControlSprite:
         fila = 1
         columna = 3
         self.dibujarSprite(fila, columna)  
-    
+
 if __name__ == '__main__':
     pygame.init()
     
