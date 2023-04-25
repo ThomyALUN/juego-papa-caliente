@@ -13,8 +13,8 @@ class JuegoPapa:
     '''Clase que controla el funcionamiento del programa y del juego'''
     def __init__(self, ancho:int=1280, alto:int=720, distanciaJugadores:int=100, colorPapa:tuple=(191, 142, 61, 0.8), 
                 radioPapa:int=10, rutaMusicaFondo:str="multimedia/music/backgroundSong.mp3", 
-                rutaFondoJuego:str="multimedia/images/fondoJuego.jpg", rutaMusicaTitulo:str="multimedia/music/titleSong.wav",
-                rutaMusicaDerrota:str="multimedia/music/defeatSong.mp3", rutaMusicaVictoria:str="multimedia/music/victorySong.wav"):
+                rutaFondoJuego:str="multimedia/images/fondoJuego.jpg", rutaMusicaTitulo:str="multimedia/music/titleSong.mp3",
+                rutaMusicaDerrota:str="multimedia/music/defeatSong.mp3", rutaMusicaVictoria:str="multimedia/music/victorySong.mp3"):
         '''Método constructor de la clase JuegoPapa. Establece los valores iniciales de las variables más importantes. 
         Todos sus parámetros son opcionales, para permitir una fácil modificación en caso de que se desee'''
         self.debug=False
@@ -438,6 +438,6 @@ if __name__=="__main__":
     juego.musicaEjecutable=False
     juego.setNombreJugador("Carlitos")
     juego.selecSpriteJug("sprites\Males\M_01.png")
-    juego.setJugadores(8)
+    juego.setJugadores(3)
     juego.llenarDiccSprites()
     juego.cicloPrincipal()
