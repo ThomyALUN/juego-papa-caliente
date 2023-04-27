@@ -114,11 +114,11 @@ while True:
         # Manejar eventos de entrada de teclado para cada entrada de texto
         for caja in cajasTexto:
             caja.manejarEvento(event)
-        '''
+        
         # chick en el boton 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            if _play.collidepoint(pygame.mouse.get_pos()):
-                print("funciona el click") '''
+            if boton.collidepoint(pygame.mouse.get_pos()):
+                print("funciona el click") 
 
     # Actualizar las entradas de texto
     for caja in cajasTexto:
@@ -150,6 +150,6 @@ while True:
     mensajes('( Derecha o Izquierda )',
              negro, 41, 352, 50)
 
-    botonPlay()
+    boton=botonPlay()
 
     pygame.display.update()
