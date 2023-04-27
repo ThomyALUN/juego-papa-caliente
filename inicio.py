@@ -87,7 +87,7 @@ while True:
 
     pantalla.blit(mensaje_principal1, (80, 40))
     pantalla.blit(mensaje_principal2, (84, 44))
-    pantalla.blit(mensaje_principal2, (88, 48))
+    pantalla.blit(mensaje_principal3, (88, 48))
 
     pantalla.blit(mensaje_numero, (40, 150))
     pygame.draw.rect(pantalla, negro, rectangulo_numero, 4)
