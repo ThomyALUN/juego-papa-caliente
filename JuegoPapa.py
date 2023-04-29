@@ -4,16 +4,18 @@ import pygame
 from random import randint, shuffle
 from math import sin, pi
 
-from ControlSprite import ControlSprite
 from estructuras import Queue
-from funciones import calcularVerticesPoligono, nombresAleatorios, buscarSprites
+from subClasesPG import CajaTexto, Boton, ControlSprite
+from funciones import calcularVerticesPoligono, nombresAleatorios, buscarSprites, generarDiccColores
+
 
 
 class JuegoPapa:
     '''Clase que controla el funcionamiento del programa y del juego'''
-    def __init__(self, ancho:int=1280, alto:int=720, distanciaJugadores:int=100, colorPapa:tuple=(191, 142, 61, 0.8), 
+    def __init__(self, ancho:int=900, alto:int=540, distanciaJugadores:int=100, colorPapa:tuple=(191, 142, 61, 0.8), 
                 radioPapa:int=10, rutaMusicaFondo:str="multimedia/music/backgroundSong.mp3", 
-                rutaFondoJuego:str="multimedia/images/fondoJuego.jpg", rutaMusicaTitulo:str="multimedia/music/titleSong.mp3",
+                rutaFondoPpal:str="multimedia/images/fondoPpal.jpg",
+                rutaFondoJuego:str="multimedia/images/fondoPtJuego.jpg", rutaMusicaTitulo:str="multimedia/music/titleSong.mp3",
                 rutaMusicaDerrota:str="multimedia/music/defeatSong.mp3", rutaMusicaVictoria:str="multimedia/music/victorySong.mp3"):
         '''Método constructor de la clase JuegoPapa. Establece los valores iniciales de las variables más importantes. 
         Todos sus parámetros son opcionales, para permitir una fácil modificación en caso de que se desee'''
@@ -42,8 +44,11 @@ class JuegoPapa:
         self.musicaDerrota=rutaMusicaDerrota
         self.musicaVictoria=rutaMusicaVictoria
 
+        self.modo=0 # 0 -> Pantalla inicio, 1 -> Jugando, 2 -> Pantalla de pausa
+
         self.difX=0
         self.difY=0
+        self.diccColores=generarDiccColores()
         self.diccSprites = {}
         self.listaSprites = buscarSprites("sprites")
         self.listaPerdedores = []
@@ -66,6 +71,11 @@ class JuegoPapa:
         self.pantalla = pygame.display.set_mode((self._ancho, self._alto))
         self.reloj = pygame.time.Clock()
         self.fondoJuego = pygame.image.load(rutaFondoJuego)
+        self.fondoPpal = pygame.image.load(rutaFondoPpal)
+
+        self.cajaNumJug=CajaTexto(600, 175, 220, 60, self.pantalla)
+        self.cajaNombre=CajaTexto(600, 300, 220, 60, self.pantalla)
+        self.cajasTexto = [self.cajaNumJug, self.cajaNombre]
 
         self.diccFuentes={}
         self.configurarFuente("titulo", 50)
@@ -73,7 +83,8 @@ class JuegoPapa:
         self.configurarFuente("resultado", 40)
         self.configurarFuente("tituloPerdedores", 30)
         self.configurarFuente("nombrePerdedores", 25)
-        self.generarTitulo()
+        self.generarBotones()
+
 
     def configDificultad(self, nivel:int):
         '''Cambia el nivel de dificultad del juego. Recibe como parámetro el nuevo nivel de dificultad.'''
@@ -88,22 +99,65 @@ class JuegoPapa:
         else:
             self.vectores=20
 
-    def iniciarJuego(self):
+    def inciarJuego(self):
         '''Se encarga de iniciar el funcionamiento del juego como tal, mostrando los personajes,
         la papa y sus respectivas animaciones'''
-        pass
+        nombre=self.cajaNombre.texto
+        numJug=self.cajaNumJug.texto
+        if nombre!="" and numJug!="":
+            try:
+                int(numJug)
+            except ValueError:
+                pass
+            else:
+                if int(numJug)>=3 and int(numJug)<=10:
+                    self._ancho=1280
+                    self._alto=720
+                    self.ponerMusica(self.musicaFondo)
+                    pygame.display.set_mode((1280,720))
+                    self.ponerFondo(self.fondoJuego)
+                    self.setNombreJugador(nombre)
+                    self.numJugadores=int(numJug)
+                    self.selecSpriteJug("sprites\Males\M_01.png")
+                    self.setJugadores(self.numJugadores)
+                    self.llenarDiccSprites()
+                    self.modo=1
+                    self.generarTituloPtJuego()
+                    self.ponerTituloPtJuego()
+                    pygame.display.update()
 
     def pausarJuego(self):
         '''Se encarga de poner el juego en un estado de pausa'''
-        pass
+        self.modo=2
+        pygame.mixer.music.pause()
+        self.duracionRest=self.finRonda-pygame.time.get_ticks()
+        print(self.duracionRest)
 
     def reanudarJuego(self):
         '''Se encarga de reanudar el juego desde el estado de pausa'''
-        pass
+        self.modo=1
+        pygame.mixer.music.unpause()
+        self.finRonda=pygame.time.get_ticks()+self.duracionRest+100
+        print(self.finRonda)
 
     def volverMenuPpal(self):
         '''Se encarga de cerrar la sesión de juego y volver al menú principal'''
-        pass
+        self.modo=0
+        self.ponerMusica(self.musicaTitulo)
+        self.cajaNombre.texto=""
+        self.cajaNumJug.texto=""
+        self._ancho=900
+        self._alto=540
+        pygame.display.set_mode((900, 540))
+
+    def generarBotones(self):
+        self.botonPlay=Boton(314, 399, 200, 70, "Jugar", self.pantalla)
+        self.botonPausa=Boton(1280/2-300, 720*3.65/4, 200, 30, "Pausa", self.pantalla, 30)
+        self.botonPausa.centerx=1280/2-300
+        self.botonReanudar=Boton(1280/4+200, 720*3.65/4, 200, 30, "Reanudar", self.pantalla, 30)
+        self.botonReanudar.centerx=1280/2-300
+        self.botonMenuPpal=Boton(1280/2+200, 720*3.65/4, 200, 30, "Menú principal", self.pantalla, 30)
+        self.botonMenuPpal.centerx=1280/2+300
 
     def selecSpriteJug(self, rutaSprite):
         '''Se selecciona el sprite del jugador'''
@@ -200,7 +254,7 @@ class JuegoPapa:
         Recibe como parámetro el nombre y el tamaño que se le asignarán a la fuente'''
         self.diccFuentes[nombreFuente] = pygame.font.Font(None, tamanio)
 
-    def generarTitulo(self):
+    def generarTituloPtJuego(self):
         '''Se genera el título en la pantalla donde se ejecuta el juego'''
         self.textoTitulo = self.diccFuentes["titulo"].render("Juego de la papa caliente", True, (250, 250, 250, 0.4))
         self.rectanguloTitulo = self.textoTitulo.get_rect()
@@ -285,6 +339,7 @@ class JuegoPapa:
         except pygame.error:
             pass
         self.ponerFondo()
+        self.ponerTituloPtJuego()
         self.mostarPerdedores()
         self.pantalla.blit(self.textosGanador[1], self.rectsGanador[1])
         self.pantalla.blit(self.textosGanador[0], self.rectsGanador[0])
@@ -322,25 +377,61 @@ class JuegoPapa:
                     pygame.draw.rect(self.pantalla, (200, 10, 10), rectNombreJug, 0, 10)
                 self.pantalla.blit(texto, rectanguloTexto)
 
+    def hacerRectMargenPpal(self):
+        naranja=self.diccColores["naranja"]
+        pygame.draw.rect(self.pantalla, naranja, (20, 20, 860, 10))
+        pygame.draw.rect(self.pantalla, naranja, (20, 510, 860, 10))
+        pygame.draw.rect(self.pantalla, naranja, (20, 20, 10, 500))
+        pygame.draw.rect(self.pantalla, naranja, (870, 20, 10, 500))
 
-    def ponerFondo(self):
+    def mostrarMensaje(self, mensaje, color, cordenadaX, cordenadaY, tamañoDeLetra):
+        mensaje_final = pygame.font.Font(None, tamañoDeLetra).render(mensaje, True, color)
+        self.pantalla.blit(mensaje_final, (cordenadaX, cordenadaY))
+
+    def ponerFondo(self, imagen:str):
         '''Carga la imagen de fondo y la pone en pantalla'''
-        tamanioImagen=[self.fondoJuego.get_width(), self.fondoJuego.get_height()]
-        if self._ancho >= (tamanioImagen[0] + 180) and self._alto >= (tamanioImagen[1] + 180):
-            posImagen = [ 
-                        (self._ancho - tamanioImagen[0])/2, 
-                        (self._alto - tamanioImagen[1])/2
-                        ]
-            self.pantalla.blit(self.fondoJuego, (posImagen))
+        self.pantalla.fill((0,0,0))
+        tamanioImagen=[imagen.get_width(), imagen.get_height()]
+        posImagen = [ (self._ancho - tamanioImagen[0])/2, (self._alto - tamanioImagen[1])/2 ]
+        self.pantalla.blit(imagen, (posImagen))
 
     def refrescarJuego(self):
         '''Refresca el juego cada segundo para mantener los elementos gráficos actualizados'''
-        self.ponerFondo()
+        self.ponerFondo(self.fondoJuego)
+        self.ponerTituloPtJuego()
         self.ubicarJugadores()
         self.mostarPerdedores()
+        self.mostrarBotonesJuego() if self.modo==1 else self.mostrarBotonesPausa()
         pygame.draw.circle(self.pantalla, self.colorPapa, self.coordsPapa, self.radioPapa)
         pygame.draw.circle(self.pantalla, (0,0,0), self.coordsPapa, self.radioPapa, self.radioPapa//6)
         pygame.display.update()
+
+    def mostrarMenuPpal(self):
+        self.movX += self.incrementoMovX
+        self.movY += self.incrementoMovY
+        if self.movX < 0 or self.movX > 35:
+            self.incrementoMovX *= -1
+        if self.movY < 0 or self.movY > 15:
+            self.incrementoMovY *= -1
+        self.hacerRectMargenPpal()
+        self.mostrarMensaje('JUEGO DE LA PAPA HOT', self.diccColores["negro"], 50+self.movX, 50+self.movY, 90)
+        self.mostrarMensaje('JUEGO DE LA PAPA HOT', self.diccColores["naranja"], 54+self.movX, 54+self.movY, 90)
+        self.mostrarMensaje('JUEGO DE LA PAPA HOT', self.diccColores["naranjaPalido"], 58+self.movX, 58+self.movY, 90)
+        self.mostrarMensaje('Jugadores que desea (3-10)', self.diccColores["negro"], 40, 178, 60)
+        self.mostrarMensaje('Nombre de su personaje', self.diccColores["negro"], 40, 303, 60)
+        pygame.draw.rect(self.pantalla, self.diccColores["negro"], (326+self.movX, 391+self.movY, 200, 70),0,20)
+        pygame.draw.rect(self.pantalla, self.diccColores["naranja"], (320+self.movX, 395+self.movY, 200, 70),0,20)
+        self.botonPlay.desplazar(self.movX, self.movY)
+        self.botonPlay.mostrarBoton()
+        pygame.display.update()
+
+    def mostrarBotonesJuego(self):
+        self.botonPausa.mostrarBoton()
+        self.botonMenuPpal.mostrarBoton()
+    
+    def mostrarBotonesPausa(self):
+        self.botonReanudar.mostrarBoton()
+        self.botonMenuPpal.mostrarBoton()
 
     def ponerMusica(self, archivo:str):
         '''Pone la música de fondo.
@@ -354,90 +445,129 @@ class JuegoPapa:
             except pygame.error:
                 pass
 
-    def ponerTitulo(self):
+    def ponerTituloPtJuego(self):
         '''Pone en pantalla el título del juego según los parámetros definidos en el método generarTitulo()'''
         self.pantalla.blit(self.textoTitulo, self.rectanguloTitulo)
 
     def cicloPrincipal(self):
         '''Ciclo principal de ejecución del juego'''
         self.running=True
-        self.ponerTitulo()
-        self.ponerMusica(self.musicaFondo)
+        # self.ponerTituloPtJuego()
+        self.ponerMusica(self.musicaTitulo)
+
+        self.movY = 0
+        self.incrementoMovY = 0.3
+        self.movX = 0
+        self.incrementoMovX = 0.1
+
+
         while self.running:
-            if self.numJugadores>1:
-                if not self.tiempoGenerado:
-                    self.generarTiempoAleatorio()
-                elif self.vectoresPorGraficar==0:
-                    tiempoActual=pygame.time.get_ticks()
-                    if tiempoActual>self.finRonda:
-                        self.jugadorEliminado=self.personaPapa
-                        self.colaJugadores.show()
-                        pygame.time.wait(3000)
-                        self.sacarJugador()
-                        self.jugadorEliminado=None
-                        self.tiempoGenerado=False
-                        self.finRonda=None
-                        if self.numJugadores==1:
-                            try:
-                                if self.musicaEjecutable:
-                                    pygame.mixer.music.fadeout(1000)
-                            except pygame.error:
-                                pass
-                            pygame.time.wait(500)
-                            self.generarGanador()
-                            continue
-
-                self.prevPersonaPapa=self.personaPapa
-                self.coordsPrev=self.coordsActual
-                if self.vectoresPorGraficar==0 and self.nombreJugador!=self.personaPapa: 
-                    pygame.time.wait(500)
-                    self.personaPapa=self.colaJugadores.dequeue()
-                    self.colaJugadores.enqueue(self.personaPapa)
-                    self.coordsActual=self.colaCoords.dequeue()
-                    self.colaCoords.enqueue(self.coordsActual)
-
+            self.reloj.tick(60)
+            if self.modo==0:
+                self.ponerFondo(self.fondoPpal)
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.running=False
-                    elif (self.vectoresPorGraficar==0 and self.nombreJugador==self.personaPapa 
-                        and self.nombreJugador==self.prevPersonaPapa and event.type==pygame.KEYDOWN
-                        and event.key==pygame.K_SPACE):
+                    for caja in self.cajasTexto:
+                        caja.manejarEvento(event)
+                    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                        if self.botonPlay.collidepoint(pygame.mouse.get_pos()):
+                            self.inciarJuego()
+                for caja in self.cajasTexto:
+                    caja.actualizar()
+                for caja in self.cajasTexto:
+                    caja.dibujar()
+                self.mostrarMenuPpal()
+            elif self.modo==1:
+                if self.numJugadores>1:
+                    if not self.tiempoGenerado:
+                        self.generarTiempoAleatorio()
+                    elif self.vectoresPorGraficar==0:
+                        tiempoActual=pygame.time.get_ticks()
+                        if tiempoActual>self.finRonda:
+                            self.jugadorEliminado=self.personaPapa
+                            self.colaJugadores.show()
+                            pygame.time.wait(3000)
+                            self.sacarJugador()
+                            self.jugadorEliminado=None
+                            self.tiempoGenerado=False
+                            self.finRonda=None
+                            if self.numJugadores==1:
+                                try:
+                                    if self.musicaEjecutable:
+                                        pygame.mixer.music.fadeout(1000)
+                                except pygame.error:
+                                    pass
+                                pygame.time.wait(500)
+                                self.generarGanador()
+                                continue
+
+                    self.prevPersonaPapa=self.personaPapa
+                    self.coordsPrev=self.coordsActual
+                    if self.vectoresPorGraficar==0 and self.nombreJugador!=self.personaPapa: 
+                        pygame.time.wait(500)
                         self.personaPapa=self.colaJugadores.dequeue()
                         self.colaJugadores.enqueue(self.personaPapa)
                         self.coordsActual=self.colaCoords.dequeue()
                         self.colaCoords.enqueue(self.coordsActual)
 
-                if self.vectoresPorGraficar>0:
-                    self.vectoresPorGraficar-=1
-                    self.coordsPapa+=vectorDireccion
-                    self.refrescarJuego() 
-                    if self.vectoresPorGraficar==0:
-                        fin=time.time()
-                        print(fin-inicio)
-                elif self.prevPersonaPapa!=self.personaPapa:
-                    inicio=time.time()
-                    self.vectoresPorGraficar=self.vectores
-                    self.vectorX=(self.coordsActual[0]-self.coordsPrev[0])/self.vectoresPorGraficar
-                    self.vectorY=(self.coordsActual[1]-self.coordsPrev[1])/self.vectoresPorGraficar
-                    vectorDireccion=pygame.Vector2(self.vectorX, self.vectorY)
-                    self.jugadoresPase=[self.prevPersonaPapa, self.personaPapa]
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            self.running=False
+                        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                            if self.botonPausa.collidepoint(pygame.mouse.get_pos()):
+                                self.pausarJuego()
+                            if self.botonMenuPpal.collidepoint(pygame.mouse.get_pos()):
+                                self.volverMenuPpal()
+                        elif (self.vectoresPorGraficar==0 and self.nombreJugador==self.personaPapa 
+                            and self.nombreJugador==self.prevPersonaPapa and event.type==pygame.KEYDOWN
+                            and event.key==pygame.K_SPACE):
+                            self.personaPapa=self.colaJugadores.dequeue()
+                            self.colaJugadores.enqueue(self.personaPapa)
+                            self.coordsActual=self.colaCoords.dequeue()
+                            self.colaCoords.enqueue(self.coordsActual)
+
+                    if self.vectoresPorGraficar>0:
+                        self.vectoresPorGraficar-=1
+                        self.coordsPapa+=vectorDireccion
+                        self.refrescarJuego() 
+                        if self.vectoresPorGraficar==0:
+                            fin=time.time()
+                            print(fin-inicio)
+                    elif self.prevPersonaPapa!=self.personaPapa:
+                        inicio=time.time()
+                        self.vectoresPorGraficar=self.vectores
+                        self.vectorX=(self.coordsActual[0]-self.coordsPrev[0])/self.vectoresPorGraficar
+                        self.vectorY=(self.coordsActual[1]-self.coordsPrev[1])/self.vectoresPorGraficar
+                        vectorDireccion=pygame.Vector2(self.vectorX, self.vectorY)
+                        self.jugadoresPase=[self.prevPersonaPapa, self.personaPapa]
+                    else:
+                        self.refrescarJuego()
                 else:
-                    self.refrescarJuego()
-            else:
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            self.running=False
+                    self.mostrarGanador()
+            elif self.modo==2:
+                self.ponerFondo(self.fondoJuego)
+                self.ponerTituloPtJuego()
+                self.refrescarJuego()
+                self.botonReanudar.mostrarBoton()
+                self.botonMenuPpal.mostrarBoton()
+                pygame.display.update()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.running=False
-                
-                self.mostrarGanador()
-            self.reloj.tick(60)
+                    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                        if self.botonReanudar.collidepoint(pygame.mouse.get_pos()):
+                            self.reanudarJuego()
+                        if self.botonMenuPpal.collidepoint(pygame.mouse.get_pos()):
+                            self.volverMenuPpal()
 
 if __name__=="__main__":
     juego=JuegoPapa()
     # juego.debug=True
     juego.configDificultad(2)
-    juego.musicaEjecutable=False
-    juego.setNombreJugador("Carlitos")
-    juego.selecSpriteJug("sprites\Males\M_01.png")
-    juego.setJugadores(3)
-    juego.llenarDiccSprites()
+    # juego.musicaEjecutable=False
+    juego.modo=0
     juego.cicloPrincipal()

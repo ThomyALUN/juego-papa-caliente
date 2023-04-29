@@ -45,27 +45,25 @@ def buscarSprites(carpetaPpal:str):
     Recibe como parámetro el nombre de la carpeta donde se encuentran los sprites
     '''
     listaRutas = []
-
     rutaHombres = os.path.join(carpetaPpal, "Males")
     rutaMujeres = os.path.join(carpetaPpal, "Females")
-
     spritesHombres = os.listdir(rutaHombres)
     spritesMujeres = os.listdir(rutaMujeres)
-
     for elemento in spritesHombres:
         rutaCompleta = os.path.join(rutaHombres, elemento)
         listaRutas.append(rutaCompleta)
     for elemento in spritesMujeres:
         rutaCompleta = os.path.join(rutaMujeres, elemento)
         listaRutas.append(rutaCompleta)
-
     return listaRutas
 
-lista=buscarSprites("sprites")
-print(lista)
-dato1=lista[0]
-print(dato1)
-dato1Mod=dato1.split(".")[0]
-print(dato1Mod)
-if dato1Mod[-1].lower()=="c":
-    print("tiene cola")
+def generarDiccColores():
+    dicc={}
+    dicc["blanco"] = (255, 255, 255)
+    dicc["negro"] = (0, 0, 0)
+    dicc["verdeClaro"] = (218, 247, 166)
+    dicc["verdeOscuro"] = (47, 159, 129)
+    dicc["celeste"] = (174, 214, 241)
+    dicc["naranjaPalido"] = (255, 195, 0)
+    dicc["naranja"] = (255, 87, 51)
+    return dicc
