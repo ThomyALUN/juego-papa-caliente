@@ -28,14 +28,14 @@ rutasSprites = buscarSprites("sprites")
 listaSprites = []
 for ruta in rutasSprites:
     sprite = ControlSprite(ruta, screen, x=300, y=200)
-    sprite.setEscala(40, 45)
+    sprite.setEscala(50, 55)
     listaSprites.append(sprite)
 
 """Inicializa variables
 La variable spriteActual (que almacena el índice del sprite actualmente seleccionado) y sprite_font 
 (que contiene una fuente de letra para dibujar el símbolo ">" que indica qué sprite está seleccionado).
 """
-spriteActual = 0
+
 sprite_font = pygame.font.SysFont("Arial", 24)
 
 def sel_sprite():
@@ -47,59 +47,65 @@ def sel_sprite():
     
     No recibe ningun parametro. 
     Retorna la ruta del sprite y su imagen"""
-    global spriteActual
-    
+    spriteActual = 0
     running = True
+    seleccionado=False
     while running:
-        for event in pygame.event.get():
-            if event.type== pygame.QUIT:
-                running = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    spriteActual = (spriteActual-1)%len(listaSprites)
-                elif event.key == pygame.K_DOWN:
-                    spriteActual = (spriteActual+1)%len(listaSprites)
-                elif event.key == pygame.K_RETURN:
-                    sprite_seleccionado = listaSprites[spriteActual].rutaImagen
-                    return sprite_seleccionado
+        if not seleccionado:
+            for event in pygame.event.get():
+                if event.type== pygame.QUIT:
+                    running = False
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        spriteActual = (spriteActual-1)%len(listaSprites)
+                    elif event.key == pygame.K_DOWN:
+                        spriteActual = (spriteActual+1)%len(listaSprites)
+                    elif event.key == pygame.K_LEFT:
+                        spriteActual = (spriteActual-len(listaSprites)//4)%len(listaSprites)
+                    elif event.key == pygame.K_RIGHT:
+                        spriteActual = (spriteActual+len(listaSprites)//4)%len(listaSprites)
+                    elif event.key == pygame.K_RETURN:
+                        ruta_sprite_elegido = listaSprites[spriteActual].rutaImagen
+                        print("La ruta es:", ruta_sprite_elegido)
+                        seleccionado=True
 
-        screen.fill(WHITE)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running=False
-        for i in range(len(listaSprites)):
-            # Calcula la posición vertical para cada sprite
-            if i < len(listaSprites)//2:
-                y_pos = 30+i*50
-                x_pos = 200
-            else:
-                y_pos = 30+(i-len(listaSprites)//2)*50
-                x_pos = 450
-            if i == spriteActual:
-                text = sprite_font.render(">", True, BLACK)
-                # Agrega una cantidad adicional a la posición vertical del texto
-                screen.blit(text, (x_pos-50, y_pos))
-            listaSprites[i].setXY(x_pos, y_pos)
-            listaSprites[i].posInicial()
-        pygame.display.flip()
+            screen.fill(WHITE)
+            for i in range(len(listaSprites)):
+                # Calcula la posición vertical para cada sprite
+                if i < len(listaSprites)//4:
+                    y_pos = screen.get_height()/4+i*55
+                    x_pos = screen.get_width()//9*3
+                elif i < 2*len(listaSprites)//4:
+                    y_pos = screen.get_height()/4+(i-len(listaSprites)//4)*55
+                    x_pos = screen.get_width()//9*4
+                elif i < 3*len(listaSprites)//4:
+                    y_pos = screen.get_height()/4+(i-2*len(listaSprites)//4)*55
+                    x_pos = screen.get_width()//9*5
+                else:
+                    y_pos = screen.get_height()/4+(i-3*len(listaSprites)//4)*55
+                    x_pos = screen.get_width()//9*6
+                if i == spriteActual:
+                    text = sprite_font.render(">", True, BLACK)
+                    # Agrega una cantidad adicional a la posición vertical del texto
+                    screen.blit(text, (x_pos-50, y_pos-10))
+                listaSprites[i].setXY(x_pos, y_pos)
+                listaSprites[i].posInicial()
+            pygame.display.flip()
+        else:
+            """Después de que el usuario selecciona un sprite, 
+            el código entra en un bucle principal que muestra el sprite en la pantalla. 
+            El bucle principal se ejecuta hasta que el usuario cierre la ventana de pygame."""
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running=False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        ruta_sprite_elegido = sel_sprite()
+            screen.fill(WHITE)
+            sprite_elegido = pygame.image.load(ruta_sprite_elegido)
+            rectSprite=sprite_elegido.get_rect()
+            rectSprite.center=(screen.get_width()//2, screen.get_height()//2)
+            screen.blit(sprite_elegido, rectSprite)
+            pygame.display.flip()
 
-
-ruta_sprite_elegido = sel_sprite()
-done = False
-while not done:
-    """Después de que el usuario selecciona un sprite, 
-    el código entra en un bucle principal que muestra el sprite en la pantalla. 
-    El bucle principal se ejecuta hasta que el usuario cierre la ventana de pygame."""
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
-    screen.fill(WHITE)
-    if ruta_sprite_elegido:
-        sprite_elegido = pygame.image.load(ruta_sprite_elegido)
-        screen.blit(sprite_elegido, (50, 50))
-    pygame.display.flip()
-
-print("La ruta es:", ruta_sprite_elegido) #Imprime la ruta del sprite seleccionado por el usuario en la consola y cierra pygame.
-          
-# Cierra pygame
-pygame.quit()
+sel_sprite()
