@@ -113,18 +113,20 @@ class JuegoPapa:
                 if int(numJug)>=3 and int(numJug)<=10:
                     self._ancho=1280
                     self._alto=720
-                    self.ponerMusica(self.musicaFondo)
-                    pygame.display.set_mode((1280,720))
-                    self.ponerFondo(self.fondoJuego)
                     self.setNombreJugador(nombre)
                     self.numJugadores=int(numJug)
-                    self.selecSpriteJug("sprites\Males\M_01.png")
-                    self.setJugadores(self.numJugadores)
-                    self.llenarDiccSprites()
-                    self.modo=1
-                    self.generarTituloPtJuego()
-                    self.ponerTituloPtJuego()
-                    pygame.display.update()
+                    self.pantSelecSprite()
+                    self.selecSpriteJug(self.rutaSpriteElegido)
+                    if self.spriteSeleccionado:
+                        self.modo=1
+                        self.setJugadores(self.numJugadores)
+                        self.llenarDiccSprites()
+                        pygame.display.set_mode((1280,720))
+                        self.ponerMusica(self.musicaFondo)
+                        self.ponerFondo(self.fondoJuego)
+                        self.generarTituloPtJuego()
+                        self.ponerTituloPtJuego()
+                        pygame.display.update()
 
     def pausarJuego(self):
         '''Se encarga de poner el juego en un estado de pausa'''
@@ -197,6 +199,91 @@ class JuegoPapa:
             self.generarCoordenadas()
         else:
             self.numJugadores=None
+
+    def pantSelecSprite(self):
+        """Esta funcion permite que el usuario seleccione un sprite de una lista de sprites disponibles. 
+        La función muestra una lista de sprites y resalta el sprite seleccionado actualmente con un ">" al lado. 
+        El usuario puede moverse hacia arriba o hacia abajo en la 
+        lista utilizando las teclas de flecha arriba y abajo, 
+        y puede seleccionar el sprite presionando la tecla "Enter.
+        
+        No recibe ningun parametro. 
+        Retorna la ruta del sprite y su imagen"""
+
+        ctrlsSprites=[]
+        for ruta in self.listaSprites:
+            sprite = ControlSprite(ruta, self.pantalla, x=300, y=200)
+            sprite.setEscala(50, 55)
+            ctrlsSprites.append(sprite)
+
+        spriteActual = 0
+        running = True
+        self.spriteSeleccionado=False
+        sprite_font = pygame.font.SysFont("Arial", 24)
+        while running:
+            if not self.spriteSeleccionado:
+                for event in pygame.event.get():
+                    if event.type== pygame.QUIT:
+                        running = False
+                        pygame.quit()
+                        exit()
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_UP:
+                            spriteActual = (spriteActual-1)%len(ctrlsSprites)
+                        elif event.key == pygame.K_DOWN:
+                            spriteActual = (spriteActual+1)%len(ctrlsSprites)
+                        elif event.key == pygame.K_LEFT:
+                            spriteActual = (spriteActual-len(ctrlsSprites)//4)%len(ctrlsSprites)
+                        elif event.key == pygame.K_RIGHT:
+                            spriteActual = (spriteActual+len(ctrlsSprites)//4)%len(ctrlsSprites)
+                        elif event.key == pygame.K_RETURN:
+                            self.rutaSpriteElegido = ctrlsSprites[spriteActual].rutaImagen
+                            print("La ruta es:", self.rutaSpriteElegido)
+                            self.spriteSeleccionado=True
+                        elif event.key == pygame.K_BACKSPACE:
+                            running=False
+
+                self.ponerFondo(self.fondoPpal)
+                for i in range(len(ctrlsSprites)):
+                    # Calcula la posición vertical para cada sprite
+                    if i < len(ctrlsSprites)//4:
+                        y_pos = self.pantalla.get_height()/4+i*55
+                        x_pos = self.pantalla.get_width()//9*3
+                    elif i < 2*len(ctrlsSprites)//4:
+                        y_pos = self.pantalla.get_height()/4+(i-len(ctrlsSprites)//4)*55
+                        x_pos = self.pantalla.get_width()//9*4
+                    elif i < 3*len(ctrlsSprites)//4:
+                        y_pos = self.pantalla.get_height()/4+(i-2*len(ctrlsSprites)//4)*55
+                        x_pos = self.pantalla.get_width()//9*5
+                    else:
+                        y_pos = self.pantalla.get_height()/4+(i-3*len(ctrlsSprites)//4)*55
+                        x_pos = self.pantalla.get_width()//9*6
+                    if i == spriteActual:
+                        text = sprite_font.render(">", True, (0,0,0))
+                        # Agrega una cantidad adicional a la posición vertical del texto
+                        self.pantalla.blit(text, (x_pos-50, y_pos-10))
+                    ctrlsSprites[i].setXY(x_pos, y_pos)
+                    ctrlsSprites[i].posInicial()
+                pygame.display.flip()
+            else:
+                """Después de que el usuario selecciona un sprite, 
+                el código entra en un bucle que muestra el sprite en la pantalla."""
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running=False
+                        pygame.quit()
+                        exit()
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_BACKSPACE:
+                            self.spriteSeleccionado=False
+                        elif event.key == pygame.K_RETURN:
+                            running=False
+                self.ponerFondo(self.fondoPpal)
+                sprite_elegido = pygame.image.load(self.rutaSpriteElegido)
+                rectSprite=sprite_elegido.get_rect()
+                rectSprite.center=(self.pantalla.get_width()//2, self.pantalla.get_height()//2)
+                self.pantalla.blit(sprite_elegido, rectSprite)
+                pygame.display.flip()
 
     def generarCoordenadas(self):
         '''Genera las coordenadas en las que deben ubicarse los jugadores en pantalla'''
@@ -349,7 +436,7 @@ class JuegoPapa:
         pygame.display.update() 
 
     def mostarPerdedores(self):
-        '''Muestra los perdedores que han ido saliendo en orden'''
+        '''Muestra los perdedores en orden de salida'''
         cantPerd=len(self.listaPerdedores)
         if cantPerd>0:
             offsetY=-150+20*(self.numJugadores+cantPerd)
@@ -472,6 +559,9 @@ class JuegoPapa:
                         caja.manejarEvento(event)
                     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                         if self.botonPlay.collidepoint(pygame.mouse.get_pos()):
+                            self.inciarJuego()
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
                             self.inciarJuego()
                 for caja in self.cajasTexto:
                     caja.actualizar()

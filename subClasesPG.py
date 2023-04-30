@@ -82,8 +82,8 @@ class CajaTexto:
         elif event.type == pygame.KEYDOWN:
             # Si la entrada de texto está activa, agregar la tecla presionada al texto
             if self.active:
-                if event.key == pygame.K_RETURN:
-                    self.texto = ''
+                if event.key == pygame.K_RETURN or event.key == pygame.K_TAB:
+                    pass
                 elif event.key == pygame.K_BACKSPACE:
                     self.texto = self.texto[:-1]
                 else:
