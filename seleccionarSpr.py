@@ -24,21 +24,13 @@ screen = pygame.display.set_mode((900, 540))
 utilizando una función importada del modulo funciones llamada buscarSprites. 
 Luego, instancia un objeto de la clase ControlSprite para cada sprite 
 y los almacena en una lista llamada listaSprites."""
-rutasSprites = buscarSprites("sprites")
-listaSprites = []
-for ruta in rutasSprites:
-    sprite = ControlSprite(ruta, screen, x=300, y=200)
-    sprite.setEscala(50, 55)
-    listaSprites.append(sprite)
 
 """Inicializa variables
 La variable spriteActual (que almacena el índice del sprite actualmente seleccionado) y sprite_font 
 (que contiene una fuente de letra para dibujar el símbolo ">" que indica qué sprite está seleccionado).
 """
 
-sprite_font = pygame.font.SysFont("Arial", 24)
-
-def sel_sprite():
+def selecSprite():
     """Esta funcion permite que el usuario seleccione un sprite de una lista de sprites disponibles. 
     La función muestra una lista de sprites y resalta el sprite seleccionado actualmente con un ">" al lado. 
     El usuario puede moverse hacia arriba o hacia abajo en la 
@@ -47,9 +39,18 @@ def sel_sprite():
     
     No recibe ningun parametro. 
     Retorna la ruta del sprite y su imagen"""
+
+    rutasSprites = buscarSprites("sprites")
+    listaSprites = []
+    for ruta in rutasSprites:
+        sprite = ControlSprite(ruta, screen, x=300, y=200)
+        sprite.setEscala(50, 55)
+        listaSprites.append(sprite)
+
     spriteActual = 0
     running = True
     seleccionado=False
+    sprite_font = pygame.font.SysFont("Arial", 24)
     while running:
         if not seleccionado:
             for event in pygame.event.get():
@@ -100,12 +101,10 @@ def sel_sprite():
                     running=False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
-                        ruta_sprite_elegido = sel_sprite()
+                        seleccionado=False
             screen.fill(WHITE)
             sprite_elegido = pygame.image.load(ruta_sprite_elegido)
             rectSprite=sprite_elegido.get_rect()
             rectSprite.center=(screen.get_width()//2, screen.get_height()//2)
             screen.blit(sprite_elegido, rectSprite)
             pygame.display.flip()
-
-sel_sprite()
