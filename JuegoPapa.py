@@ -568,6 +568,7 @@ class JuegoPapa:
                 self.pantalla.blit(texto, rectanguloTexto)
 
     def hacerRectMargenPpal(self):
+        '''Dibuja los bordes del rectángulo presentado en la pantalla de inicio'''
         naranja=self.diccColores["naranja"]
         pygame.draw.rect(self.pantalla, naranja, (20, 20, 860, 10))
         pygame.draw.rect(self.pantalla, naranja, (20, 510, 860, 10))
