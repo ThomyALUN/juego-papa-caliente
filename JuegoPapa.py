@@ -141,7 +141,6 @@ class JuegoPapa:
         if self.musicaEjecutable:
             pygame.mixer.music.pause()
         self.duracionRest=self.finRonda-pygame.time.get_ticks()
-        print(self.duracionRest)
 
     def reanudarJuego(self):
         '''Se encarga de reanudar el juego desde el estado de pausa 
@@ -150,7 +149,6 @@ class JuegoPapa:
         if self.musicaEjecutable:
             pygame.mixer.music.unpause()
         self.finRonda=pygame.time.get_ticks()+self.duracionRest+100
-        print(self.finRonda)
 
     def volverMenuPpal(self):
         '''Se encarga de cerrar la sesión de juego y volver al menú principal, 
@@ -171,7 +169,6 @@ class JuegoPapa:
         self.botonPlay=Boton(314, 399, 200, 70, "Jugar", self.pantalla)
         self.botonPausa=Boton(1280/2-300, 720*3.65/4, 200, 30, "Pausa", self.pantalla, 30)
         self.botonPausa.centerx=1280/2-300
-        print(self.botonPausa.centery)
         self.botonReanudar=Boton(1280/4+200, 720*3.65/4, 200, 30, "Reanudar", self.pantalla, 30)
         self.botonReanudar.centerx=1280/2-300
         self.botonMenuPpal=Boton(1280/2+200, 720*3.65/4, 200, 30, "Menú principal", self.pantalla, 30)
@@ -384,7 +381,6 @@ class JuegoPapa:
             duracion=randint(self.numJugadores*2, self.numJugadores*(5-self.dificultad))*1000 # Este valor debe estar en milisegundos 
         else:
             duracion=5000
-        print(duracion)
         self.finRonda=inicioRonda+duracion
         self.tiempoGenerado=True
 
@@ -736,11 +732,7 @@ class JuegoPapa:
                         self.vectoresPorGraficar-=1
                         self.coordsPapa+=vectorDireccion
                         self.refrescarJuego() 
-                        if self.vectoresPorGraficar==0:
-                            fin=time.time()
-                            print(fin-inicio)
                     elif self.prevPersonaPapa!=self.personaPapa:
-                        inicio=time.time()
                         self.vectoresPorGraficar=self.vectores
                         self.vectorX=(self.coordsActual[0]-self.coordsPrev[0])/self.vectoresPorGraficar
                         self.vectorY=(self.coordsActual[1]-self.coordsPrev[1])/self.vectoresPorGraficar
