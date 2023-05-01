@@ -104,7 +104,8 @@ class CajaTexto:
 
 
 class Boton(pygame.rect.Rect):
-    def __init__(self, x, y, width, height, mensaje, pantalla, tamanioLetra=80, colorActivo=(255, 195, 0), colorPasivo=(218, 247, 166)):
+    def __init__(self, x:int, y:int, width:int, height:int, mensaje:str, pantalla:pygame.surface.Surface, 
+                tamanioLetra:int=80, fuente:str=None, colorActivo:tuple=(255, 195, 0), colorPasivo:tuple=(218, 247, 166)):
         self.x = x
         self.y = y
         self.xInicial = x
@@ -114,6 +115,7 @@ class Boton(pygame.rect.Rect):
         self.mensaje = mensaje
         self.pantalla=pantalla
         self.tamanioLetra = tamanioLetra
+        self.fuente=fuente
         self.colorActivo = colorActivo
         self.colorPasivo = colorPasivo
         self.negro = (0, 0, 0)
@@ -127,12 +129,15 @@ class Boton(pygame.rect.Rect):
         self.y=self.yInicial
 
     def mostrarBoton(self):
-        # cambiar color cuando haga click
+        # Define el estilo de la fuente
+        if self.fuente==None:
+            textoBoton = pygame.font.Font(self.fuente, self.tamanioLetra).render(self.mensaje, True, self.negro)
+        else:
+            textoBoton = pygame.font.SysFont(self.fuente, self.tamanioLetra).render(self.mensaje, True, self.negro)
+
+        # Detecta si el mouse esta posado sobre el botón
         if self.collidepoint(pygame.mouse.get_pos()):
             pygame.draw.rect(self.pantalla, self.colorPasivo, (self.x, self.y, self.w, self.h), 0, 20)
-            textoBoton = pygame.font.Font(None, self.tamanioLetra).render(self.mensaje, True, self.negro)
-            self.pantalla.blit(textoBoton, ((self.x+(self.width-textoBoton.get_width())/2),(self.y+(self.height-textoBoton.get_height())/2)))
         else:
             pygame.draw.rect(self.pantalla, self.colorActivo, (self.x, self.y, self.w, self.h), 0, 20)
-            textoBoton = pygame.font.Font(None, self.tamanioLetra).render(self.mensaje, True, self.negro)
-            self.pantalla.blit(textoBoton, ((self.x+(self.width-textoBoton.get_width())/2),(self.y+(self.height-textoBoton.get_height())/2)))
+        self.pantalla.blit(textoBoton, ((self.x+(self.width-textoBoton.get_width())/2),(self.y+(self.height-textoBoton.get_height())/2)))

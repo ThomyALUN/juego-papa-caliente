@@ -72,6 +72,7 @@ class JuegoPapa:
         self.reloj = pygame.time.Clock()
         self.fondoJuego = pygame.image.load(rutaFondoJuego)
         self.fondoPpal = pygame.image.load(rutaFondoPpal)
+        self.textoSelector = pygame.font.SysFont("Arial", 24).render(">", True, (0,0,0))
 
         self.cajaNumJug=CajaTexto(600, 175, 220, 60, self.pantalla)
         self.cajaNombre=CajaTexto(600, 300, 220, 60, self.pantalla)
@@ -83,7 +84,10 @@ class JuegoPapa:
         self.configurarFuente("resultado", 40)
         self.configurarFuente("tituloPerdedores", 30)
         self.configurarFuente("nombrePerdedores", 25)
+        self.configurarFuente("indicaciones", 28)
+        self.generarTitulos()
         self.generarBotones()
+        self.generarIndicaciones()
 
 
     def configDificultad(self, nivel:int):
@@ -99,7 +103,7 @@ class JuegoPapa:
         else:
             self.vectores=20
 
-    def inciarJuego(self):
+    def iniciarJuego(self):
         '''Se encarga de iniciar el funcionamiento del juego como tal, mostrando los personajes,
         la papa y sus respectivas animaciones'''
         nombre=self.cajaNombre.texto
@@ -116,17 +120,19 @@ class JuegoPapa:
                     self.setNombreJugador(nombre)
                     self.numJugadores=int(numJug)
                     self.pantSelecSprite()
-                    self.selecSpriteJug(self.rutaSpriteElegido)
+                    self.setSpriteJug(self.rutaSpriteElegido)
                     if self.spriteSeleccionado:
-                        self.modo=1
-                        self.setJugadores(self.numJugadores)
-                        self.llenarDiccSprites()
-                        pygame.display.set_mode((1280,720))
-                        self.ponerMusica(self.musicaFondo)
-                        self.ponerFondo(self.fondoJuego)
-                        self.generarTituloPtJuego()
-                        self.ponerTituloPtJuego()
-                        pygame.display.update()
+                        self.selecNivel()
+                        if self.nivelSeleccionado:
+                            self.modo=1
+                            self.setJugadores(self.numJugadores)
+                            self.llenarDiccSprites()
+                            pygame.display.set_mode((1280,720))
+                            self.ponerMusica(self.musicaFondo)
+                            self.ponerFondo(self.fondoJuego)
+                            
+                            self.ponerTitulo(0)
+                            pygame.display.update()
 
     def pausarJuego(self):
         '''Se encarga de poner el juego en un estado de pausa'''
@@ -160,12 +166,56 @@ class JuegoPapa:
         self.botonReanudar.centerx=1280/2-300
         self.botonMenuPpal=Boton(1280/2+200, 720*3.65/4, 200, 30, "Menú principal", self.pantalla, 30)
         self.botonMenuPpal.centerx=1280/2+300
+        self.botonFacil=Boton(375, 120, 150, 50, "Facil", self.pantalla, 30, "Calibri", (70,189,34), (237,128,19))
+        self.botonEstandar=Boton(375, 220, 150, 50, "Estandar", self.pantalla, 30, "Calibri", (70,189,34), (237,128,19))
+        self.botonDificil=Boton(375, 320, 150, 50, "Díficil", self.pantalla, 30, "Calibri", (70,189,34), (237,128,19))
 
-    def selecSpriteJug(self, rutaSprite):
+    def setSpriteJug(self, rutaSprite):
         '''Se selecciona el sprite del jugador'''
         self.spriteJugador=rutaSprite
         contrldrSprite=ControlSprite(self.spriteJugador, self.pantalla, None, None)
         self.diccSprites[self.nombreJugador]=contrldrSprite
+
+    def selecNivel(self):
+        running=True
+        self.nivelSeleccionado=False
+        botonesNivel=[self.botonFacil, self.botonEstandar, self.botonDificil]
+        botonSeleccionado=0
+        while running and not self.nivelSeleccionado:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running=False
+                    pygame.quit()
+                    exit()
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    if self.botonFacil.collidepoint(pygame.mouse.get_pos()):
+                        self.nivelSeleccionado=True
+                        self.configDificultad(0)
+                    elif self.botonEstandar.collidepoint(pygame.mouse.get_pos()):
+                        self.nivelSeleccionado=True
+                        self.configDificultad(1)
+                    elif self.botonDificil.collidepoint(pygame.mouse.get_pos()):
+                        self.nivelSeleccionado=True
+                        self.configDificultad(2)
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        running=False
+                    elif event.key == pygame.K_UP:
+                        botonSeleccionado=(botonSeleccionado - 1)%len(botonesNivel)
+                    elif event.key == pygame.K_DOWN:
+                        botonSeleccionado=(botonSeleccionado + 1)%len(botonesNivel)
+                    elif event.key == pygame.K_RETURN:
+                        self.nivelSeleccionado=True
+                        self.configDificultad(botonSeleccionado)
+            self.ponerFondo(self.fondoPpal)
+            self.ponerTitulo(3)
+            self.ponerIndicacion(0)
+            self.ponerIndicacion(1)
+            for i, boton in enumerate(botonesNivel):
+                boton.mostrarBoton()
+                if botonSeleccionado==i:
+                    self.pantalla.blit(self.textoSelector, (boton.x-20, boton.y+10))
+            pygame.display.flip()
 
     def llenarDiccSprites(self):
         '''Se encarga de seleccionar sprites de manera aleatoria para los jugadores'''
@@ -244,6 +294,9 @@ class JuegoPapa:
                             running=False
 
                 self.ponerFondo(self.fondoPpal)
+                self.ponerTitulo(1)
+                self.ponerIndicacion(0)
+                self.ponerIndicacion(1)
                 for i in range(len(ctrlsSprites)):
                     # Calcula la posición vertical para cada sprite
                     if i < len(ctrlsSprites)//4:
@@ -259,9 +312,8 @@ class JuegoPapa:
                         y_pos = self.pantalla.get_height()/4+(i-3*len(ctrlsSprites)//4)*55
                         x_pos = self.pantalla.get_width()//9*6
                     if i == spriteActual:
-                        text = sprite_font.render(">", True, (0,0,0))
                         # Agrega una cantidad adicional a la posición vertical del texto
-                        self.pantalla.blit(text, (x_pos-50, y_pos-10))
+                        self.pantalla.blit(self.textoSelector, (x_pos-50, y_pos-10))
                     ctrlsSprites[i].setXY(x_pos, y_pos)
                     ctrlsSprites[i].posInicial()
                 pygame.display.flip()
@@ -279,6 +331,8 @@ class JuegoPapa:
                         elif event.key == pygame.K_RETURN:
                             running=False
                 self.ponerFondo(self.fondoPpal)
+                self.ponerTitulo(2)
+                self.ponerIndicacion(1)
                 sprite_elegido = pygame.image.load(self.rutaSpriteElegido)
                 rectSprite=sprite_elegido.get_rect()
                 rectSprite.center=(self.pantalla.get_width()//2, self.pantalla.get_height()//2)
@@ -341,12 +395,44 @@ class JuegoPapa:
         Recibe como parámetro el nombre y el tamaño que se le asignarán a la fuente'''
         self.diccFuentes[nombreFuente] = pygame.font.Font(None, tamanio)
 
-    def generarTituloPtJuego(self):
-        '''Se genera el título en la pantalla donde se ejecuta el juego'''
-        self.textoTitulo = self.diccFuentes["titulo"].render("Juego de la papa caliente", True, (250, 250, 250, 0.4))
-        self.rectanguloTitulo = self.textoTitulo.get_rect()
-        self.rectanguloTitulo.centerx = self.pantalla.get_rect().centerx
-        self.rectanguloTitulo.centery = 50
+    def generarTitulos(self):
+        '''Se generan varios de los títulos que serán mostrados a lo largo del juego, 
+        estableciendo su texto y espacio en pantalla'''
+        tituloPtJuego = self.diccFuentes["titulo"].render("Juego de la papa caliente", True, (250, 250, 250, 0.4))
+        tituloSprites1 = self.diccFuentes["titulo"].render("Selecciona un sprite", True, (0, 0, 0, 0.4))
+        tituloSprites2 = self.diccFuentes["titulo"].render("¿Estas seguro?", True, (0, 0, 0, 0.4))
+        tituloDificultad = self.diccFuentes["titulo"].render("Selecciona una dificultad", True, (0, 0, 0, 0.4))
+        self.listaTxtTit = [tituloPtJuego, tituloSprites1, tituloSprites2, tituloDificultad]
+
+        rectTitPtJuego = tituloPtJuego.get_rect()
+        rectTitPtJuego.centerx = 720
+        rectTitPtJuego.centery = 50
+        self.listaRectTit = [rectTitPtJuego]
+        for i, texto in enumerate(self.listaTxtTit[1:]):
+            rectTitulo = texto.get_rect()
+            rectTitulo.centerx = 450
+            rectTitulo.centery = 50
+            self.listaRectTit.append(rectTitulo)
+
+    def generarIndicaciones(self):
+        mensaje1="Desplazate con las flechas direccionales"
+        indicSprite1 = self.diccFuentes["indicaciones"].render(mensaje1, True, (0, 0, 0, 0.4))
+        mensaje2="Si deseas continuar presiona ENTER y si deseas volver presiona RETORNO"
+        indicSprite2 = self.diccFuentes["indicaciones"].render(mensaje2, True, (0, 0, 0, 0.4))
+        self.listaIndic=[indicSprite1, indicSprite2]
+        self.listaRectIndic=[]
+        for i, texto in enumerate(self.listaIndic):
+            rectIndic = texto.get_rect()
+            rectIndic.centerx = 450
+            rectIndic.centery = 440+40*i
+            self.listaRectIndic.append(rectIndic)
+
+    def ponerTitulo(self, numIndic:int):
+        '''Pone en pantalla el título del juego según los parámetros definidos en el método generarTitulos()'''
+        self.pantalla.blit(self.listaTxtTit[numIndic], self.listaRectTit[numIndic])
+
+    def ponerIndicacion(self, numIndic:int):
+        self.pantalla.blit(self.listaIndic[numIndic], self.listaRectIndic[numIndic])
 
     def ubicarJugadores(self):
         '''Ubica a cada jugador en lugar que le corresponde en la ventana'''
@@ -425,8 +511,8 @@ class JuegoPapa:
                     self.ponerMusica(self.musicaVictoria)
         except pygame.error:
             pass
-        self.ponerFondo()
-        self.ponerTituloPtJuego()
+        self.ponerFondo(self.fondoJuego)
+        self.ponerTitulo(0)
         self.mostarPerdedores()
         self.pantalla.blit(self.textosGanador[1], self.rectsGanador[1])
         self.pantalla.blit(self.textosGanador[0], self.rectsGanador[0])
@@ -485,7 +571,7 @@ class JuegoPapa:
     def refrescarJuego(self):
         '''Refresca el juego cada segundo para mantener los elementos gráficos actualizados'''
         self.ponerFondo(self.fondoJuego)
-        self.ponerTituloPtJuego()
+        self.ponerTitulo(0)
         self.ubicarJugadores()
         self.mostarPerdedores()
         self.mostrarBotonesJuego() if self.modo==1 else self.mostrarBotonesPausa()
@@ -532,14 +618,10 @@ class JuegoPapa:
             except pygame.error:
                 pass
 
-    def ponerTituloPtJuego(self):
-        '''Pone en pantalla el título del juego según los parámetros definidos en el método generarTitulo()'''
-        self.pantalla.blit(self.textoTitulo, self.rectanguloTitulo)
-
     def cicloPrincipal(self):
         '''Ciclo principal de ejecución del juego'''
         self.running=True
-        # self.ponerTituloPtJuego()
+        self.modo=0
         self.ponerMusica(self.musicaTitulo)
 
         self.movY = 0
@@ -559,10 +641,10 @@ class JuegoPapa:
                         caja.manejarEvento(event)
                     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                         if self.botonPlay.collidepoint(pygame.mouse.get_pos()):
-                            self.inciarJuego()
+                            self.iniciarJuego()
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
-                            self.inciarJuego()
+                            self.iniciarJuego()
                 for caja in self.cajasTexto:
                     caja.actualizar()
                 for caja in self.cajasTexto:
@@ -640,7 +722,7 @@ class JuegoPapa:
                     self.mostrarGanador()
             elif self.modo==2:
                 self.ponerFondo(self.fondoJuego)
-                self.ponerTituloPtJuego()
+                self.ponerTitulo(0)
                 self.refrescarJuego()
                 self.botonReanudar.mostrarBoton()
                 self.botonMenuPpal.mostrarBoton()
@@ -657,7 +739,5 @@ class JuegoPapa:
 if __name__=="__main__":
     juego=JuegoPapa()
     # juego.debug=True
-    juego.configDificultad(2)
     # juego.musicaEjecutable=False
-    juego.modo=0
     juego.cicloPrincipal()
