@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module subClasesPG</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>subClasesPG</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:h%3A%5Cinformaci%C3%B3n%20acad%C3%A9mica%5Casignaturas%20universidad%5Cestructuras%20de%20datos%5Cjuego-papa-caliente%5Csubclasespg.py">h:\información académica\asignaturas universidad\estructuras de datos\juego-papa-caliente\subclasespg.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pygame.html">pygame</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="subClasesPG.html#CajaTexto">CajaTexto</a>
+</font></dt><dt><font face="helvetica, arial"><a href="subClasesPG.html#ControlSprite">ControlSprite</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="pygame.rect.html#Rect">pygame.rect.Rect</a>(<a href="builtins.html#object">builtins.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="subClasesPG.html#Boton">Boton</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Boton">class <strong>Boton</strong></a>(<a href="pygame.rect.html#Rect">pygame.rect.Rect</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Boton">Boton</a>(x:&nbsp;int,&nbsp;y:&nbsp;int,&nbsp;width:&nbsp;int,&nbsp;height:&nbsp;int,&nbsp;mensaje:&nbsp;str,&nbsp;pantalla:&nbsp;pygame.surface.Surface,&nbsp;tamanioLetra:&nbsp;int&nbsp;=&nbsp;80,&nbsp;fuente:&nbsp;str&nbsp;=&nbsp;None,&nbsp;colorActivo:&nbsp;tuple&nbsp;=&nbsp;(255,&nbsp;195,&nbsp;0),&nbsp;colorPasivo:&nbsp;tuple&nbsp;=&nbsp;(218,&nbsp;247,&nbsp;166))<br>
+&nbsp;<br>
+Clase&nbsp;que&nbsp;hereda&nbsp;de&nbsp;la&nbsp;clase&nbsp;pygame.rect.<a href="pygame.rect.html#Rect">Rect</a>.&nbsp;Implementada&nbsp;para&nbsp;facilitar&nbsp;el&nbsp;uso&nbsp;de&nbsp;botones&nbsp;en&nbsp;la&nbsp;interfaz&nbsp;gráfica<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="subClasesPG.html#Boton">Boton</a></dd>
+<dd><a href="pygame.rect.html#Rect">pygame.rect.Rect</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Boton-__init__"><strong>__init__</strong></a>(self, x: int, y: int, width: int, height: int, mensaje: str, pantalla: pygame.surface.Surface, tamanioLetra: int = 80, fuente: str = None, colorActivo: tuple = (255, 195, 0), colorPasivo: tuple = (218, 247, 166))</dt><dd><tt>Constructor&nbsp;de&nbsp;la&nbsp;clase&nbsp;<a href="#Boton">Boton</a>.&nbsp;Recibe&nbsp;varios&nbsp;parámetros&nbsp;obligatorios:<br>
+coordenadas&nbsp;en&nbsp;X&nbsp;y&nbsp;en&nbsp;Y,&nbsp;ancho,&nbsp;alto,&nbsp;el&nbsp;texto&nbsp;que&nbsp;debe&nbsp;mostrar&nbsp;y&nbsp;la&nbsp;superficie&nbsp;de&nbsp;pygame&nbsp;sobre&nbsp;la&nbsp;cuál&nbsp;debe&nbsp;dibujarse.<br>
+&nbsp;<br>
+Recibe&nbsp;otros&nbsp;parámetros&nbsp;opcionales:&nbsp;el&nbsp;tamaño&nbsp;de&nbsp;letra,&nbsp;la&nbsp;fuente&nbsp;de&nbsp;letra,&nbsp;el&nbsp;color&nbsp;cuando&nbsp;el&nbsp;botón&nbsp;esta&nbsp;activo<br>
+y&nbsp;el&nbsp;colo&nbsp;cuando&nbsp;el&nbsp;botón&nbsp;esta&nbsp;inactivo&nbsp;(o&nbsp;pasivo)</tt></dd></dl>
+
+<dl><dt><a name="Boton-desplazar"><strong>desplazar</strong></a>(self, movX: int, movY: int)</dt><dd><tt>Permite&nbsp;desplazar&nbsp;el&nbsp;botón&nbsp;de&nbsp;su&nbsp;posición&nbsp;inicial&nbsp;una&nbsp;determinada&nbsp;cantidad&nbsp;de&nbsp;pixeles.<br>
+Recibe&nbsp;dos&nbsp;parámetros:&nbsp;el&nbsp;desplazamiento&nbsp;en&nbsp;X&nbsp;y&nbsp;el&nbsp;desplazamiento&nbsp;en&nbsp;Y</tt></dd></dl>
+
+<dl><dt><a name="Boton-mostrarBoton"><strong>mostrarBoton</strong></a>(self)</dt><dd><tt>Muestra&nbsp;el&nbsp;botón&nbsp;en&nbsp;pantalla&nbsp;y&nbsp;cambia&nbsp;su&nbsp;color&nbsp;su&nbsp;el&nbsp;usuario&nbsp;esta&nbsp;posando&nbsp;el&nbsp;mouse&nbsp;sobre&nbsp;él</tt></dd></dl>
+
+<dl><dt><a name="Boton-volverPosInicial"><strong>volverPosInicial</strong></a>(self)</dt><dd><tt>Permite&nbsp;que&nbsp;el&nbsp;botón&nbsp;regrese&nbsp;a&nbsp;su&nbsp;posición&nbsp;por&nbsp;defecto</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="pygame.rect.html#Rect">pygame.rect.Rect</a>:<br>
+<dl><dt><a name="Boton-__bool__"><strong>__bool__</strong></a>(self, /)</dt><dd><tt>self&nbsp;!=&nbsp;0</tt></dd></dl>
+
+<dl><dt><a name="Boton-__contains__"><strong>__contains__</strong></a>(self, key, /)</dt><dd><tt>Return&nbsp;key&nbsp;in&nbsp;self.</tt></dd></dl>
+
+<dl><dt><a name="Boton-__copy__"><strong>__copy__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Boton-__delitem__"><strong>__delitem__</strong></a>(self, key, /)</dt><dd><tt>Delete&nbsp;self[key].</tt></dd></dl>
+
+<dl><dt><a name="Boton-__eq__"><strong>__eq__</strong></a>(self, value, /)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="Boton-__ge__"><strong>__ge__</strong></a>(self, value, /)</dt><dd><tt>Return&nbsp;self&gt;=value.</tt></dd></dl>
+
+<dl><dt><a name="Boton-__getitem__"><strong>__getitem__</strong></a>(self, key, /)</dt><dd><tt>Return&nbsp;self[key].</tt></dd></dl>
+
+<dl><dt><a name="Boton-__gt__"><strong>__gt__</strong></a>(self, value, /)</dt><dd><tt>Return&nbsp;self&gt;value.</tt></dd></dl>
+
+<dl><dt><a name="Boton-__iter__"><strong>__iter__</strong></a>(self, /)</dt><dd><tt>Implement&nbsp;iter(self).</tt></dd></dl>
+
+<dl><dt><a name="Boton-__le__"><strong>__le__</strong></a>(self, value, /)</dt><dd><tt>Return&nbsp;self&lt;=value.</tt></dd></dl>
+
+<dl><dt><a name="Boton-__len__"><strong>__len__</strong></a>(self, /)</dt><dd><tt>Return&nbsp;len(self).</tt></dd></dl>
+
+<dl><dt><a name="Boton-__lt__"><strong>__lt__</strong></a>(self, value, /)</dt><dd><tt>Return&nbsp;self&lt;value.</tt></dd></dl>
+
+<dl><dt><a name="Boton-__ne__"><strong>__ne__</strong></a>(self, value, /)</dt><dd><tt>Return&nbsp;self!=value.</tt></dd></dl>
+
+<dl><dt><a name="Boton-__reduce__"><strong>__reduce__</strong></a>(...)</dt><dd><tt>Helper&nbsp;for&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Boton-__repr__"><strong>__repr__</strong></a>(self, /)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="Boton-__setitem__"><strong>__setitem__</strong></a>(self, key, value, /)</dt><dd><tt>Set&nbsp;self[key]&nbsp;to&nbsp;value.</tt></dd></dl>
+
+<dl><dt><a name="Boton-__str__"><strong>__str__</strong></a>(self, /)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<dl><dt><a name="Boton-clamp"><strong>clamp</strong></a>(...)</dt><dd><tt><a href="#Boton-clamp">clamp</a>(<a href="pygame.rect.html#Rect">Rect</a>)&nbsp;-&gt;&nbsp;<a href="pygame.rect.html#Rect">Rect</a><br>
+moves&nbsp;the&nbsp;rectangle&nbsp;inside&nbsp;another</tt></dd></dl>
+
+<dl><dt><a name="Boton-clamp_ip"><strong>clamp_ip</strong></a>(...)</dt><dd><tt><a href="#Boton-clamp_ip">clamp_ip</a>(<a href="pygame.rect.html#Rect">Rect</a>)&nbsp;-&gt;&nbsp;None<br>
+moves&nbsp;the&nbsp;rectangle&nbsp;inside&nbsp;another,&nbsp;in&nbsp;place</tt></dd></dl>
+
+<dl><dt><a name="Boton-clip"><strong>clip</strong></a>(...)</dt><dd><tt><a href="#Boton-clip">clip</a>(<a href="pygame.rect.html#Rect">Rect</a>)&nbsp;-&gt;&nbsp;<a href="pygame.rect.html#Rect">Rect</a><br>
+crops&nbsp;a&nbsp;rectangle&nbsp;inside&nbsp;another</tt></dd></dl>
+
+<dl><dt><a name="Boton-clipline"><strong>clipline</strong></a>(...)</dt><dd><tt><a href="#Boton-clipline">clipline</a>(x1,&nbsp;y1,&nbsp;x2,&nbsp;y2)&nbsp;-&gt;&nbsp;((cx1,&nbsp;cy1),&nbsp;(cx2,&nbsp;cy2))<br>
+<a href="#Boton-clipline">clipline</a>(x1,&nbsp;y1,&nbsp;x2,&nbsp;y2)&nbsp;-&gt;&nbsp;()<br>
+<a href="#Boton-clipline">clipline</a>((x1,&nbsp;y1),&nbsp;(x2,&nbsp;y2))&nbsp;-&gt;&nbsp;((cx1,&nbsp;cy1),&nbsp;(cx2,&nbsp;cy2))<br>
+<a href="#Boton-clipline">clipline</a>((x1,&nbsp;y1),&nbsp;(x2,&nbsp;y2))&nbsp;-&gt;&nbsp;()<br>
+<a href="#Boton-clipline">clipline</a>((x1,&nbsp;y1,&nbsp;x2,&nbsp;y2))&nbsp;-&gt;&nbsp;((cx1,&nbsp;cy1),&nbsp;(cx2,&nbsp;cy2))<br>
+<a href="#Boton-clipline">clipline</a>((x1,&nbsp;y1,&nbsp;x2,&nbsp;y2))&nbsp;-&gt;&nbsp;()<br>
+<a href="#Boton-clipline">clipline</a>(((x1,&nbsp;y1),&nbsp;(x2,&nbsp;y2)))&nbsp;-&gt;&nbsp;((cx1,&nbsp;cy1),&nbsp;(cx2,&nbsp;cy2))<br>
+<a href="#Boton-clipline">clipline</a>(((x1,&nbsp;y1),&nbsp;(x2,&nbsp;y2)))&nbsp;-&gt;&nbsp;()<br>
+crops&nbsp;a&nbsp;line&nbsp;inside&nbsp;a&nbsp;rectangle</tt></dd></dl>
+
+<dl><dt><a name="Boton-collidedict"><strong>collidedict</strong></a>(...)</dt><dd><tt><a href="#Boton-collidedict">collidedict</a>(dict)&nbsp;-&gt;&nbsp;(key,&nbsp;value)<br>
+<a href="#Boton-collidedict">collidedict</a>(dict)&nbsp;-&gt;&nbsp;None<br>
+<a href="#Boton-collidedict">collidedict</a>(dict,&nbsp;use_values=0)&nbsp;-&gt;&nbsp;(key,&nbsp;value)<br>
+<a href="#Boton-collidedict">collidedict</a>(dict,&nbsp;use_values=0)&nbsp;-&gt;&nbsp;None<br>
+test&nbsp;if&nbsp;one&nbsp;rectangle&nbsp;in&nbsp;a&nbsp;dictionary&nbsp;intersects</tt></dd></dl>
+
+<dl><dt><a name="Boton-collidedictall"><strong>collidedictall</strong></a>(...)</dt><dd><tt><a href="#Boton-collidedictall">collidedictall</a>(dict)&nbsp;-&gt;&nbsp;[(key,&nbsp;value),&nbsp;...]<br>
+<a href="#Boton-collidedictall">collidedictall</a>(dict,&nbsp;use_values=0)&nbsp;-&gt;&nbsp;[(key,&nbsp;value),&nbsp;...]<br>
+test&nbsp;if&nbsp;all&nbsp;rectangles&nbsp;in&nbsp;a&nbsp;dictionary&nbsp;intersect</tt></dd></dl>
+
+<dl><dt><a name="Boton-collidelist"><strong>collidelist</strong></a>(...)</dt><dd><tt><a href="#Boton-collidelist">collidelist</a>(list)&nbsp;-&gt;&nbsp;index<br>
+test&nbsp;if&nbsp;one&nbsp;rectangle&nbsp;in&nbsp;a&nbsp;list&nbsp;intersects</tt></dd></dl>
+
+<dl><dt><a name="Boton-collidelistall"><strong>collidelistall</strong></a>(...)</dt><dd><tt><a href="#Boton-collidelistall">collidelistall</a>(list)&nbsp;-&gt;&nbsp;indices<br>
+test&nbsp;if&nbsp;all&nbsp;rectangles&nbsp;in&nbsp;a&nbsp;list&nbsp;intersect</tt></dd></dl>
+
+<dl><dt><a name="Boton-collideobjects"><strong>collideobjects</strong></a>(...)</dt><dd><tt><a href="#Boton-collideobjects">collideobjects</a>(rect_list)&nbsp;-&gt;&nbsp;<a href="builtins.html#object">object</a><br>
+<a href="#Boton-collideobjects">collideobjects</a>(obj_list,&nbsp;key=func)&nbsp;-&gt;&nbsp;<a href="builtins.html#object">object</a><br>
+test&nbsp;if&nbsp;any&nbsp;<a href="builtins.html#object">object</a>&nbsp;in&nbsp;a&nbsp;list&nbsp;intersects</tt></dd></dl>
+
+<dl><dt><a name="Boton-collideobjectsall"><strong>collideobjectsall</strong></a>(...)</dt><dd><tt><a href="#Boton-collideobjectsall">collideobjectsall</a>(rect_list)&nbsp;-&gt;&nbsp;objects<br>
+<a href="#Boton-collideobjectsall">collideobjectsall</a>(obj_list,&nbsp;key=func)&nbsp;-&gt;&nbsp;objects<br>
+test&nbsp;if&nbsp;all&nbsp;objects&nbsp;in&nbsp;a&nbsp;list&nbsp;intersect</tt></dd></dl>
+
+<dl><dt><a name="Boton-collidepoint"><strong>collidepoint</strong></a>(...)</dt><dd><tt><a href="#Boton-collidepoint">collidepoint</a>(x,&nbsp;y)&nbsp;-&gt;&nbsp;bool<br>
+<a href="#Boton-collidepoint">collidepoint</a>((x,y))&nbsp;-&gt;&nbsp;bool<br>
+test&nbsp;if&nbsp;a&nbsp;point&nbsp;is&nbsp;inside&nbsp;a&nbsp;rectangle</tt></dd></dl>
+
+<dl><dt><a name="Boton-colliderect"><strong>colliderect</strong></a>(...)</dt><dd><tt><a href="#Boton-colliderect">colliderect</a>(<a href="pygame.rect.html#Rect">Rect</a>)&nbsp;-&gt;&nbsp;bool<br>
+test&nbsp;if&nbsp;two&nbsp;rectangles&nbsp;overlap</tt></dd></dl>
+
+<dl><dt><a name="Boton-contains"><strong>contains</strong></a>(...)</dt><dd><tt><a href="#Boton-contains">contains</a>(<a href="pygame.rect.html#Rect">Rect</a>)&nbsp;-&gt;&nbsp;bool<br>
+test&nbsp;if&nbsp;one&nbsp;rectangle&nbsp;is&nbsp;inside&nbsp;another</tt></dd></dl>
+
+<dl><dt><a name="Boton-copy"><strong>copy</strong></a>(...)</dt><dd><tt><a href="#Boton-copy">copy</a>()&nbsp;-&gt;&nbsp;<a href="pygame.rect.html#Rect">Rect</a><br>
+copy&nbsp;the&nbsp;rectangle</tt></dd></dl>
+
+<dl><dt><a name="Boton-fit"><strong>fit</strong></a>(...)</dt><dd><tt><a href="#Boton-fit">fit</a>(<a href="pygame.rect.html#Rect">Rect</a>)&nbsp;-&gt;&nbsp;<a href="pygame.rect.html#Rect">Rect</a><br>
+resize&nbsp;and&nbsp;move&nbsp;a&nbsp;rectangle&nbsp;with&nbsp;aspect&nbsp;ratio</tt></dd></dl>
+
+<dl><dt><a name="Boton-inflate"><strong>inflate</strong></a>(...)</dt><dd><tt><a href="#Boton-inflate">inflate</a>(x,&nbsp;y)&nbsp;-&gt;&nbsp;<a href="pygame.rect.html#Rect">Rect</a><br>
+grow&nbsp;or&nbsp;shrink&nbsp;the&nbsp;rectangle&nbsp;size</tt></dd></dl>
+
+<dl><dt><a name="Boton-inflate_ip"><strong>inflate_ip</strong></a>(...)</dt><dd><tt><a href="#Boton-inflate_ip">inflate_ip</a>(x,&nbsp;y)&nbsp;-&gt;&nbsp;None<br>
+grow&nbsp;or&nbsp;shrink&nbsp;the&nbsp;rectangle&nbsp;size,&nbsp;in&nbsp;place</tt></dd></dl>
+
+<dl><dt><a name="Boton-move"><strong>move</strong></a>(...)</dt><dd><tt><a href="#Boton-move">move</a>(x,&nbsp;y)&nbsp;-&gt;&nbsp;<a href="pygame.rect.html#Rect">Rect</a><br>
+moves&nbsp;the&nbsp;rectangle</tt></dd></dl>
+
+<dl><dt><a name="Boton-move_ip"><strong>move_ip</strong></a>(...)</dt><dd><tt><a href="#Boton-move_ip">move_ip</a>(x,&nbsp;y)&nbsp;-&gt;&nbsp;None<br>
+moves&nbsp;the&nbsp;rectangle,&nbsp;in&nbsp;place</tt></dd></dl>
+
+<dl><dt><a name="Boton-normalize"><strong>normalize</strong></a>(...)</dt><dd><tt><a href="#Boton-normalize">normalize</a>()&nbsp;-&gt;&nbsp;None<br>
+correct&nbsp;negative&nbsp;sizes</tt></dd></dl>
+
+<dl><dt><a name="Boton-scale_by"><strong>scale_by</strong></a>(...)</dt><dd><tt><a href="#Boton-scale_by">scale_by</a>(scalar)&nbsp;-&gt;&nbsp;<a href="pygame.rect.html#Rect">Rect</a><br>
+<a href="#Boton-scale_by">scale_by</a>(scalex,&nbsp;scaley)&nbsp;-&gt;&nbsp;<a href="pygame.rect.html#Rect">Rect</a><br>
+scale&nbsp;the&nbsp;rectangle&nbsp;by&nbsp;given&nbsp;a&nbsp;multiplier</tt></dd></dl>
+
+<dl><dt><a name="Boton-scale_by_ip"><strong>scale_by_ip</strong></a>(...)</dt><dd><tt><a href="#Boton-scale_by_ip">scale_by_ip</a>(scalar)&nbsp;-&gt;&nbsp;None<br>
+<a href="#Boton-scale_by_ip">scale_by_ip</a>(scalex,&nbsp;scaley)&nbsp;-&gt;&nbsp;None<br>
+grow&nbsp;or&nbsp;shrink&nbsp;the&nbsp;rectangle&nbsp;size,&nbsp;in&nbsp;place</tt></dd></dl>
+
+<dl><dt><a name="Boton-union"><strong>union</strong></a>(...)</dt><dd><tt><a href="#Boton-union">union</a>(<a href="pygame.rect.html#Rect">Rect</a>)&nbsp;-&gt;&nbsp;<a href="pygame.rect.html#Rect">Rect</a><br>
+joins&nbsp;two&nbsp;rectangles&nbsp;into&nbsp;one</tt></dd></dl>
+
+<dl><dt><a name="Boton-union_ip"><strong>union_ip</strong></a>(...)</dt><dd><tt><a href="#Boton-union_ip">union_ip</a>(<a href="pygame.rect.html#Rect">Rect</a>)&nbsp;-&gt;&nbsp;None<br>
+joins&nbsp;two&nbsp;rectangles&nbsp;into&nbsp;one,&nbsp;in&nbsp;place</tt></dd></dl>
+
+<dl><dt><a name="Boton-unionall"><strong>unionall</strong></a>(...)</dt><dd><tt><a href="#Boton-unionall">unionall</a>(Rect_sequence)&nbsp;-&gt;&nbsp;<a href="pygame.rect.html#Rect">Rect</a><br>
+the&nbsp;union&nbsp;of&nbsp;many&nbsp;rectangles</tt></dd></dl>
+
+<dl><dt><a name="Boton-unionall_ip"><strong>unionall_ip</strong></a>(...)</dt><dd><tt><a href="#Boton-unionall_ip">unionall_ip</a>(Rect_sequence)&nbsp;-&gt;&nbsp;None<br>
+the&nbsp;union&nbsp;of&nbsp;many&nbsp;rectangles,&nbsp;in&nbsp;place</tt></dd></dl>
+
+<dl><dt><a name="Boton-update"><strong>update</strong></a>(...)</dt><dd><tt><a href="#Boton-update">update</a>(left,&nbsp;top,&nbsp;width,&nbsp;height)&nbsp;-&gt;&nbsp;None<br>
+<a href="#Boton-update">update</a>((left,&nbsp;top),&nbsp;(width,&nbsp;height))&nbsp;-&gt;&nbsp;None<br>
+<a href="#Boton-update">update</a>(<a href="builtins.html#object">object</a>)&nbsp;-&gt;&nbsp;None<br>
+sets&nbsp;the&nbsp;position&nbsp;and&nbsp;size&nbsp;of&nbsp;the&nbsp;rectangle</tt></dd></dl>
+
+<hr>
+Static methods inherited from <a href="pygame.rect.html#Rect">pygame.rect.Rect</a>:<br>
+<dl><dt><a name="Boton-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;<a href="builtins.html#object">object</a>.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="pygame.rect.html#Rect">pygame.rect.Rect</a>:<br>
+<dl><dt><strong>__safe_for_unpickling__</strong></dt>
+</dl>
+<dl><dt><strong>bottom</strong></dt>
+</dl>
+<dl><dt><strong>bottomleft</strong></dt>
+</dl>
+<dl><dt><strong>bottomright</strong></dt>
+</dl>
+<dl><dt><strong>center</strong></dt>
+</dl>
+<dl><dt><strong>centerx</strong></dt>
+</dl>
+<dl><dt><strong>centery</strong></dt>
+</dl>
+<dl><dt><strong>h</strong></dt>
+</dl>
+<dl><dt><strong>height</strong></dt>
+</dl>
+<dl><dt><strong>left</strong></dt>
+</dl>
+<dl><dt><strong>midbottom</strong></dt>
+</dl>
+<dl><dt><strong>midleft</strong></dt>
+</dl>
+<dl><dt><strong>midright</strong></dt>
+</dl>
+<dl><dt><strong>midtop</strong></dt>
+</dl>
+<dl><dt><strong>right</strong></dt>
+</dl>
+<dl><dt><strong>size</strong></dt>
+</dl>
+<dl><dt><strong>top</strong></dt>
+</dl>
+<dl><dt><strong>topleft</strong></dt>
+</dl>
+<dl><dt><strong>topright</strong></dt>
+</dl>
+<dl><dt><strong>w</strong></dt>
+</dl>
+<dl><dt><strong>width</strong></dt>
+</dl>
+<dl><dt><strong>x</strong></dt>
+</dl>
+<dl><dt><strong>y</strong></dt>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="pygame.rect.html#Rect">pygame.rect.Rect</a>:<br>
+<dl><dt><strong>__hash__</strong> = None</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CajaTexto">class <strong>CajaTexto</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#CajaTexto">CajaTexto</a>(x:&nbsp;int,&nbsp;y:&nbsp;int,&nbsp;w:&nbsp;int,&nbsp;h:&nbsp;int,&nbsp;pantalla:&nbsp;pygame.surface.Surface,&nbsp;texto:&nbsp;str&nbsp;=&nbsp;'')<br>
+&nbsp;<br>
+Clase&nbsp;creada&nbsp;para&nbsp;manejar&nbsp;las&nbsp;cajas&nbsp;de&nbsp;texto&nbsp;mostradas&nbsp;en&nbsp;el&nbsp;juego<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="CajaTexto-__init__"><strong>__init__</strong></a>(self, x: int, y: int, w: int, h: int, pantalla: pygame.surface.Surface, texto: str = '')</dt><dd><tt>Constructor&nbsp;de&nbsp;la&nbsp;clase&nbsp;<a href="#CajaTexto">CajaTexto</a>.&nbsp;<br>
+&nbsp;<br>
+Recibe&nbsp;varios&nbsp;parámetros:&nbsp;sus&nbsp;coordenadas&nbsp;en&nbsp;X&nbsp;y&nbsp;en&nbsp;Y,<br>
+su&nbsp;ancho,&nbsp;su&nbsp;alto&nbsp;y&nbsp;la&nbsp;superficie&nbsp;de&nbsp;pygame&nbsp;sobre&nbsp;la&nbsp;cuál&nbsp;será&nbsp;dibujada.<br>
+&nbsp;<br>
+Tiene&nbsp;como&nbsp;parámetro&nbsp;opcional&nbsp;el&nbsp;texto&nbsp;inicial&nbsp;que&nbsp;tendrá&nbsp;la&nbsp;caja</tt></dd></dl>
+
+<dl><dt><a name="CajaTexto-actualizar"><strong>actualizar</strong></a>(self)</dt><dd><tt>Actualiza&nbsp;la&nbsp;superficie&nbsp;de&nbsp;texto&nbsp;y&nbsp;el&nbsp;rectángulo&nbsp;de&nbsp;la&nbsp;entrada&nbsp;de&nbsp;texto</tt></dd></dl>
+
+<dl><dt><a name="CajaTexto-dibujar"><strong>dibujar</strong></a>(self)</dt><dd><tt>Dibuja&nbsp;la&nbsp;entrada&nbsp;de&nbsp;texto&nbsp;en&nbsp;la&nbsp;superficie&nbsp;dada&nbsp;con&nbsp;su&nbsp;respectivo&nbsp;rectangulo</tt></dd></dl>
+
+<dl><dt><a name="CajaTexto-manejarEvento"><strong>manejarEvento</strong></a>(self, event)</dt><dd><tt>Maneja&nbsp;los&nbsp;eventos&nbsp;relacionados&nbsp;con&nbsp;la&nbsp;caja&nbsp;de&nbsp;texto,&nbsp;es&nbsp;decir,&nbsp;<br>
+si&nbsp;se&nbsp;selecciona&nbsp;para&nbsp;escribir&nbsp;o&nbsp;si&nbsp;se&nbsp;escribe&nbsp;en&nbsp;ella,&nbsp;y&nbsp;cambia&nbsp;su&nbsp;comportamiento&nbsp;acorde&nbsp;a&nbsp;esto.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ControlSprite">class <strong>ControlSprite</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#ControlSprite">ControlSprite</a>(rutaImagen:&nbsp;str,&nbsp;pantalla:&nbsp;pygame.surface.Surface,&nbsp;x:&nbsp;int,&nbsp;y:&nbsp;int,&nbsp;escalaX:&nbsp;int&nbsp;=&nbsp;64,&nbsp;escalaY:&nbsp;int&nbsp;=&nbsp;68)<br>
+&nbsp;<br>
+Clase&nbsp;creada&nbsp;para&nbsp;facilitar&nbsp;el&nbsp;control&nbsp;de&nbsp;los&nbsp;sprites&nbsp;y&nbsp;su&nbsp;dibujado&nbsp;en&nbsp;pantalla<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ControlSprite-__init__"><strong>__init__</strong></a>(self, rutaImagen: str, pantalla: pygame.surface.Surface, x: int, y: int, escalaX: int = 64, escalaY: int = 68)</dt><dd><tt>Constructor&nbsp;de&nbsp;la&nbsp;clase&nbsp;<a href="#ControlSprite">ControlSprite</a>.&nbsp;Recibe&nbsp;varios&nbsp;parámetros:&nbsp;la&nbsp;ruta&nbsp;donde&nbsp;esta&nbsp;el&nbsp;mapa&nbsp;del&nbsp;sprite,<br>
+la&nbsp;pantalla&nbsp;o&nbsp;superficie&nbsp;de&nbsp;pygame,&nbsp;sus&nbsp;coordenadas&nbsp;en&nbsp;X&nbsp;y&nbsp;en&nbsp;Y,&nbsp;y&nbsp;su&nbsp;escala&nbsp;horizontal&nbsp;y&nbsp;vertical</tt></dd></dl>
+
+<dl><dt><a name="ControlSprite-dibujarSprite"><strong>dibujarSprite</strong></a>(self, row: int, column: int)</dt><dd><tt>Método&nbsp;que&nbsp;permite&nbsp;dibujar&nbsp;el&nbsp;sprite.<br>
+Recibe&nbsp;como&nbsp;parámetro&nbsp;la&nbsp;fila&nbsp;y&nbsp;columna&nbsp;de&nbsp;la&nbsp;hoja&nbsp;de&nbsp;sprite,&nbsp;<br>
+indicando&nbsp;cual&nbsp;de&nbsp;todas&nbsp;las&nbsp;posiciones&nbsp;debe&nbsp;ser&nbsp;dibujada</tt></dd></dl>
+
+<dl><dt><a name="ControlSprite-girarDerecha"><strong>girarDerecha</strong></a>(self)</dt><dd><tt>Dibuja&nbsp;el&nbsp;sprite&nbsp;girado&nbsp;hacia&nbsp;la&nbsp;derecha</tt></dd></dl>
+
+<dl><dt><a name="ControlSprite-girarIzquierda"><strong>girarIzquierda</strong></a>(self)</dt><dd><tt>Dibuja&nbsp;el&nbsp;sprite&nbsp;girado&nbsp;hacia&nbsp;la&nbsp;izquierda</tt></dd></dl>
+
+<dl><dt><a name="ControlSprite-posInicial"><strong>posInicial</strong></a>(self)</dt><dd><tt>Dibuja&nbsp;el&nbsp;sprite&nbsp;mirando&nbsp;hacia&nbsp;el&nbsp;frente</tt></dd></dl>
+
+<dl><dt><a name="ControlSprite-setEscala"><strong>setEscala</strong></a>(self, escalaX: int, escalaY: int)</dt><dd><tt>Permite&nbsp;cambiar&nbsp;la&nbsp;escala&nbsp;final&nbsp;en&nbsp;que&nbsp;se&nbsp;graficará&nbsp;el&nbsp;sprite.&nbsp;<br>
+Recibe&nbsp;como&nbsp;parámetros:&nbsp;el&nbsp;valor&nbsp;horizontal&nbsp;y&nbsp;el&nbsp;valor&nbsp;vertical&nbsp;de&nbsp;la&nbsp;escala</tt></dd></dl>
+
+<dl><dt><a name="ControlSprite-setXY"><strong>setXY</strong></a>(self, x: int, y: int)</dt><dd><tt>Permite&nbsp;cambiar&nbsp;la&nbsp;posición&nbsp;final&nbsp;donde&nbsp;se&nbsp;graficará&nbsp;el&nbsp;sprite.&nbsp;<br>
+Recibe&nbsp;como&nbsp;parámetros:&nbsp;la&nbsp;coordenada&nbsp;X&nbsp;y&nbsp;la&nbsp;coordenada&nbsp;Y</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
