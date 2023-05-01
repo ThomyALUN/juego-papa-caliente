@@ -4,18 +4,14 @@ from math import sin, cos, pi
 
 def calcularVerticesPoligono(numLados:int, xCentro:float, yCentro:float, distanciaRadial:float):
     '''Calcula las posiciones en que se encuentran los vertices de un polígono. 
-    Recibe como parámetro el número de lados del polígono, las coordenadas de su centro y la distancia del centro a uno de los vertices'''
+    Recibe como parámetro el número de lados del polígono, las coordenadas de su centro y la distancia del centro a uno de los vertices.
+    Retorna una lista que contiene varias tuplas de coordenadas en X y en Y'''
     listaCoords=[]
-    for i in range(numLados):
+    for i in range(-1,numLados-1):
         xVertice=xCentro+distanciaRadial*(cos(2*pi*i/numLados))
         yVertice=yCentro+distanciaRadial*(sin(2*pi*i/numLados))
-        listaCoords.append([xVertice,yVertice])
-    if numLados<4:
-        return listaCoords
-    else:
-        ajuste=(numLados-4)//2
-        return listaCoords[-ajuste:]+listaCoords[0:-ajuste]
-    
+        listaCoords.append((xVertice,yVertice))
+    return listaCoords
 
 def nombresAleatorios(cantidadP:int):
     '''
@@ -58,6 +54,10 @@ def buscarSprites(carpetaPpal:str):
     return listaRutas
 
 def generarDiccColores():
+    '''Se encarga de generar un diccionario de colores por defecto. 
+    Cada color es la clave y su valor es una tupla de 3 valores enteros.
+    No recibe parámetros y retorna un diccionario
+    '''
     dicc={}
     dicc["blanco"] = (255, 255, 255)
     dicc["negro"] = (0, 0, 0)

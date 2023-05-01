@@ -137,14 +137,16 @@ class JuegoPapa:
     def pausarJuego(self):
         '''Se encarga de poner el juego en un estado de pausa'''
         self.modo=2
-        pygame.mixer.music.pause()
+        if self.musicaEjecutable:
+            pygame.mixer.music.pause()
         self.duracionRest=self.finRonda-pygame.time.get_ticks()
         print(self.duracionRest)
 
     def reanudarJuego(self):
         '''Se encarga de reanudar el juego desde el estado de pausa'''
         self.modo=1
-        pygame.mixer.music.unpause()
+        if self.musicaEjecutable:
+            pygame.mixer.music.unpause()
         self.finRonda=pygame.time.get_ticks()+self.duracionRest+100
         print(self.finRonda)
 
@@ -156,9 +158,13 @@ class JuegoPapa:
         self.cajaNumJug.texto=""
         self._ancho=900
         self._alto=540
+        self.tiempoGenerado=False
+        self.vectoresPorGraficar=0
         pygame.display.set_mode((900, 540))
 
     def generarBotones(self):
+        '''Se encarga de cargar en memoria la información de varios de los botones 
+        que serán mostrados durante el funcionamiento del programa'''
         self.botonPlay=Boton(314, 399, 200, 70, "Jugar", self.pantalla)
         self.botonPausa=Boton(1280/2-300, 720*3.65/4, 200, 30, "Pausa", self.pantalla, 30)
         self.botonPausa.centerx=1280/2-300
@@ -170,13 +176,15 @@ class JuegoPapa:
         self.botonEstandar=Boton(375, 220, 150, 50, "Estandar", self.pantalla, 30, "Calibri", (70,189,34), (237,128,19))
         self.botonDificil=Boton(375, 320, 150, 50, "Díficil", self.pantalla, 30, "Calibri", (70,189,34), (237,128,19))
 
-    def setSpriteJug(self, rutaSprite):
-        '''Se selecciona el sprite del jugador'''
+    def setSpriteJug(self, rutaSprite:str):
+        '''Se selecciona el sprite del jugador. 
+        Recibe como parámetro la ruta del archivo que contiene el mapa del sprite'''
         self.spriteJugador=rutaSprite
         contrldrSprite=ControlSprite(self.spriteJugador, self.pantalla, None, None)
         self.diccSprites[self.nombreJugador]=contrldrSprite
 
     def selecNivel(self):
+        '''Genera la interfaz en la cuál el usuario puede seleccionar el nivel de dificultad deseado'''
         running=True
         self.nivelSeleccionado=False
         botonesNivel=[self.botonFacil, self.botonEstandar, self.botonDificil]
@@ -232,6 +240,7 @@ class JuegoPapa:
     def setNombreJugador(self, nombreJugador:str):
         '''Recibe como parámetro el nombre del jugador y lo asigna a un atributo de la instancia de la clase JuegoPapa'''
         self.vaciarColaJug()
+        self.colaCoords.clear()
         self.difX=0
         self.difY=0
         self.diccSprites={}
@@ -269,7 +278,6 @@ class JuegoPapa:
         spriteActual = 0
         running = True
         self.spriteSeleccionado=False
-        sprite_font = pygame.font.SysFont("Arial", 24)
         while running:
             if not self.spriteSeleccionado:
                 for event in pygame.event.get():
@@ -562,7 +570,8 @@ class JuegoPapa:
         self.pantalla.blit(mensaje_final, (cordenadaX, cordenadaY))
 
     def ponerFondo(self, imagen:str):
-        '''Carga la imagen de fondo y la pone en pantalla'''
+        '''Carga la imagen de fondo y la pone en pantalla. 
+        Recibe como parámetro la ruta de la imagen'''
         self.pantalla.fill((0,0,0))
         tamanioImagen=[imagen.get_width(), imagen.get_height()]
         posImagen = [ (self._ancho - tamanioImagen[0])/2, (self._alto - tamanioImagen[1])/2 ]
@@ -575,11 +584,14 @@ class JuegoPapa:
         self.ubicarJugadores()
         self.mostarPerdedores()
         self.mostrarBotonesJuego() if self.modo==1 else self.mostrarBotonesPausa()
+        print(f"Coordenadas papa: {self.coordsPapa}")
         pygame.draw.circle(self.pantalla, self.colorPapa, self.coordsPapa, self.radioPapa)
         pygame.draw.circle(self.pantalla, (0,0,0), self.coordsPapa, self.radioPapa, self.radioPapa//6)
         pygame.display.update()
 
     def mostrarMenuPpal(self):
+        '''Se encarga de mostrar en pantalla varios de los elementos importantes
+        de la pantalla de inicio del juego, como el titulo y el boton de jugar'''
         self.movX += self.incrementoMovX
         self.movY += self.incrementoMovY
         if self.movX < 0 or self.movX > 35:
@@ -599,10 +611,12 @@ class JuegoPapa:
         pygame.display.update()
 
     def mostrarBotonesJuego(self):
+        '''Muestra en pantalla los botones de pausa y de menú principal mientras el usuario esta jugando'''
         self.botonPausa.mostrarBoton()
         self.botonMenuPpal.mostrarBoton()
     
     def mostrarBotonesPausa(self):
+        '''Muestra en pantalla los botones de reanudar y de menú principal cuando se pausa el juego'''
         self.botonReanudar.mostrarBoton()
         self.botonMenuPpal.mostrarBoton()
 
@@ -619,7 +633,9 @@ class JuegoPapa:
                 pass
 
     def cicloPrincipal(self):
-        '''Ciclo principal de ejecución del juego'''
+        '''Ciclo principal de ejecución del juego, en este suceden todos los eventos 
+        y se muestran todas las ventanas relacionadas con el funcionamiento del juego.
+        También se encarga de manejar los eventos generados por el usuario'''
         self.running=True
         self.modo=0
         self.ponerMusica(self.musicaTitulo)
@@ -735,9 +751,3 @@ class JuegoPapa:
                             self.reanudarJuego()
                         if self.botonMenuPpal.collidepoint(pygame.mouse.get_pos()):
                             self.volverMenuPpal()
-
-if __name__=="__main__":
-    juego=JuegoPapa()
-    # juego.debug=True
-    # juego.musicaEjecutable=False
-    juego.cicloPrincipal()
