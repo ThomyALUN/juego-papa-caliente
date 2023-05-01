@@ -1,5 +1,4 @@
 import os
-import time
 import pygame
 from random import randint, shuffle
 from math import sin, pi
