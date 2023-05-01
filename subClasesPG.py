@@ -1,7 +1,10 @@
 import pygame
 
 class ControlSprite:
+    '''Clase creada para facilitar el control de los sprites y su dibujado en pantalla'''
     def __init__(self, rutaImagen:str, pantalla:pygame.surface.Surface, x:int, y:int, escalaX:int=64, escalaY:int=68):
+        '''Constructor de la clase ControlSprite. Recibe varios parámetros: la ruta donde esta el mapa del sprite,
+        la pantalla o superficie de pygame, sus coordenadas en X y en Y, y su escala horizontal y vertical'''
         self.rutaImagen = rutaImagen
         self.pantalla=pantalla
         self.x = x
@@ -16,6 +19,8 @@ class ControlSprite:
         self.escalaY=escalaY
 
     def setXY(self, x:int, y:int):
+        '''Permite cambiar la posición final donde se graficará el sprite. 
+        Recibe como parámetros: la coordenada X y la coordenada Y'''
         self.x = x
         self.y = y   
     
@@ -44,16 +49,19 @@ class ControlSprite:
         self.grupoSprite.draw(self.pantalla)
     
     def posInicial(self):
+        '''Dibuja el sprite mirando hacia el frente'''
         fila = 0
         columna = 0
         self.dibujarSprite(fila, columna)        
     
     def girarDerecha(self):
+        '''Dibuja el sprite girado hacia la derecha'''
         fila = 1
         columna = 1
         self.dibujarSprite(fila, columna)  
         
     def girarIzquierda(self):
+        '''Dibuja el sprite girado hacia la izquierda'''
         fila = 1
         columna = 3
         self.dibujarSprite(fila, columna)  

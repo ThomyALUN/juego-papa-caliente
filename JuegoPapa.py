@@ -529,7 +529,7 @@ class JuegoPapa:
             pass
         self.ponerFondo(self.fondoJuego)
         self.ponerTitulo(0)
-        self.mostarPerdedores()
+        self.mostrarPerdedores()
         self.pantalla.blit(self.textosGanador[1], self.rectsGanador[1])
         self.pantalla.blit(self.textosGanador[0], self.rectsGanador[0])
         self.pantalla.blit(self.textosGanador[2], self.rectsGanador[2])
@@ -537,8 +537,9 @@ class JuegoPapa:
         spriteJugador.posInicial()
         pygame.display.update() 
 
-    def mostarPerdedores(self):
-        '''Muestra los perdedores en orden de salida'''
+    def mostrarPerdedores(self):
+        '''Muestra los perdedores en orden de salida. 
+        Pone un pequeño título en pantalla junto con el nombre de cada perdedor y su sprite correspondiente'''
         cantPerd=len(self.listaPerdedores)
         if cantPerd>0:
             offsetY=-150+20*(self.numJugadores+cantPerd)
@@ -573,7 +574,10 @@ class JuegoPapa:
         pygame.draw.rect(self.pantalla, naranja, (20, 20, 10, 500))
         pygame.draw.rect(self.pantalla, naranja, (870, 20, 10, 500))
 
-    def mostrarMensaje(self, mensaje, color, cordenadaX, cordenadaY, tamañoDeLetra):
+    def mostrarMensaje(self, mensaje:str, color:tuple, cordenadaX:int, cordenadaY:int, tamañoDeLetra:int):
+        '''Permite mostrar un mensaje con una fuente por defecto de pygame. 
+        Recibe varios parámetros: el texto del mensaje, el color de la letra,
+        las coordenadas en X y en Y, y el tamaño de la letra'''
         mensaje_final = pygame.font.Font(None, tamañoDeLetra).render(mensaje, True, color)
         self.pantalla.blit(mensaje_final, (cordenadaX, cordenadaY))
 
@@ -591,7 +595,7 @@ class JuegoPapa:
         self.ponerFondo(self.fondoJuego)
         self.ponerTitulo(0)
         self.ubicarJugadores()
-        self.mostarPerdedores()
+        self.mostrarPerdedores()
         if self.modo==1:
             self.mostrarBotonesJuego() 
             if self.nombreJugador==self.personaPapa:
