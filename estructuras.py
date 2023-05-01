@@ -33,5 +33,3 @@ class Queue:
     def clear(self):
         '''Método propio: Vacía la cola, es decir, la deja sin elementos'''
         self._items = []
-    def show(self):
-        print(self._items)

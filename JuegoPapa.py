@@ -135,7 +135,8 @@ class JuegoPapa:
                             pygame.display.update()
 
     def pausarJuego(self):
-        '''Se encarga de poner el juego en un estado de pausa'''
+        '''Se encarga de poner el juego en un estado de pausa, 
+        almacenando el estado de las variables importantes para reanudar el juego sin problema'''
         self.modo=2
         if self.musicaEjecutable:
             pygame.mixer.music.pause()
@@ -143,7 +144,8 @@ class JuegoPapa:
         print(self.duracionRest)
 
     def reanudarJuego(self):
-        '''Se encarga de reanudar el juego desde el estado de pausa'''
+        '''Se encarga de reanudar el juego desde el estado de pausa 
+        cargando las variables necesarias para reanudar correctamente el jeugo'''
         self.modo=1
         if self.musicaEjecutable:
             pygame.mixer.music.unpause()
@@ -151,7 +153,8 @@ class JuegoPapa:
         print(self.finRonda)
 
     def volverMenuPpal(self):
-        '''Se encarga de cerrar la sesión de juego y volver al menú principal'''
+        '''Se encarga de cerrar la sesión de juego y volver al menú principal, 
+        cambiando la música y modificando el tamaño de la ventana'''
         self.modo=0
         self.ponerMusica(self.musicaTitulo)
         self.cajaNombre.texto=""
@@ -168,6 +171,7 @@ class JuegoPapa:
         self.botonPlay=Boton(314, 399, 200, 70, "Jugar", self.pantalla)
         self.botonPausa=Boton(1280/2-300, 720*3.65/4, 200, 30, "Pausa", self.pantalla, 30)
         self.botonPausa.centerx=1280/2-300
+        print(self.botonPausa.centery)
         self.botonReanudar=Boton(1280/4+200, 720*3.65/4, 200, 30, "Reanudar", self.pantalla, 30)
         self.botonReanudar.centerx=1280/2-300
         self.botonMenuPpal=Boton(1280/2+200, 720*3.65/4, 200, 30, "Menú principal", self.pantalla, 30)
@@ -184,7 +188,9 @@ class JuegoPapa:
         self.diccSprites[self.nombreJugador]=contrldrSprite
 
     def selecNivel(self):
-        '''Genera la interfaz en la cuál el usuario puede seleccionar el nivel de dificultad deseado'''
+        '''Genera la interfaz en la cuál el usuario puede seleccionar el nivel de dificultad deseado.
+        Dicha dificultad podrá ser seleccionada usando las flechas direccionales y la tecla enter 
+        o con un click del boton izquierdo del mouse'''
         running=True
         self.nivelSeleccionado=False
         botonesNivel=[self.botonFacil, self.botonEstandar, self.botonDificil]
@@ -226,7 +232,9 @@ class JuegoPapa:
             pygame.display.flip()
 
     def llenarDiccSprites(self):
-        '''Se encarga de seleccionar sprites de manera aleatoria para los jugadores'''
+        '''Se encarga de seleccionar sprites de manera aleatoria para los jugadores diferentes al usuario 
+        y los almacena en un diccionario cuya clave es el nombre del jugador y el valor es un objeto
+        de la clase ControlSprite'''
         colaCopia=self.colaJugadores.copy()
         colaCopia.dequeue()
         spritesRandom=self.listaSprites[:]
@@ -238,8 +246,9 @@ class JuegoPapa:
             self.diccSprites[nombreJug]=contrldrSprite
 
     def setNombreJugador(self, nombreJugador:str):
-        '''Recibe como parámetro el nombre del jugador y lo asigna a un atributo de la instancia de la clase JuegoPapa'''
-        self.vaciarColaJug()
+        '''Recibe como parámetro el nombre del jugador y lo asigna a un atributo de la instancia de la clase JuegoPapa.
+        También lo agrega a la cola de jugadores'''
+        self.colaJugadores.clear()
         self.colaCoords.clear()
         self.difX=0
         self.difY=0
@@ -254,20 +263,14 @@ class JuegoPapa:
         if numJugadores>2:
             self.numJugadores=numJugadores
             self.llenarColaNombres()
-            self.colaJugadores.show()
             self.generarCoordenadas()
         else:
             self.numJugadores=None
 
     def pantSelecSprite(self):
-        """Esta funcion permite que el usuario seleccione un sprite de una lista de sprites disponibles. 
-        La función muestra una lista de sprites y resalta el sprite seleccionado actualmente con un ">" al lado. 
-        El usuario puede moverse hacia arriba o hacia abajo en la 
-        lista utilizando las teclas de flecha arriba y abajo, 
-        y puede seleccionar el sprite presionando la tecla "Enter.
-        
-        No recibe ningun parametro. 
-        Retorna la ruta del sprite y su imagen"""
+        '''Esta funcion permite que el usuario seleccione un sprite de una lista de sprites disponibles. 
+        El usuario puede desplazar el cursor con las flechas direccionales, 
+        y puede seleccionar el sprite presionando la tecla Enter.'''
 
         ctrlsSprites=[]
         for ruta in self.listaSprites:
@@ -296,7 +299,6 @@ class JuegoPapa:
                             spriteActual = (spriteActual+len(ctrlsSprites)//4)%len(ctrlsSprites)
                         elif event.key == pygame.K_RETURN:
                             self.rutaSpriteElegido = ctrlsSprites[spriteActual].rutaImagen
-                            print("La ruta es:", self.rutaSpriteElegido)
                             self.spriteSeleccionado=True
                         elif event.key == pygame.K_BACKSPACE:
                             running=False
@@ -326,8 +328,6 @@ class JuegoPapa:
                     ctrlsSprites[i].posInicial()
                 pygame.display.flip()
             else:
-                """Después de que el usuario selecciona un sprite, 
-                el código entra en un bucle que muestra el sprite en la pantalla."""
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         running=False
@@ -348,7 +348,8 @@ class JuegoPapa:
                 pygame.display.flip()
 
     def generarCoordenadas(self):
-        '''Genera las coordenadas en las que deben ubicarse los jugadores en pantalla'''
+        '''Genera las coordenadas en las que deben ubicarse los jugadores en pantalla,
+        haciendo uso de una función externa la cual calcula los vértices de un polígono'''
         self.distanciaRadial = self.distanciaJugadores/(2*sin(pi/self.numJugadores))
         centroX=self._ancho/2+self.difX
         centroY=self._alto/2+self.difY
@@ -362,8 +363,8 @@ class JuegoPapa:
         self.coordsActual=self.colaCoords.peek()
 
     def sacarJugador(self):
-        '''Se encarga de eliminar a un jugador en el momento en que la papa deja de moverse'''
-        print(f"El jugador a eliminar es {self.jugadorEliminado}")
+        '''Se encarga de eliminar a un jugador en el momento en que la papa deja de moverse. 
+        Sacandolo de la cola de jugadores y generando nuevas coordenadas para los jugadores actuales'''
         for i in range(self.numJugadores):
             jugador=self.colaJugadores.dequeue()
             if jugador==self.jugadorEliminado:
@@ -371,13 +372,13 @@ class JuegoPapa:
                 self.difX=100
             else:
                 self.colaJugadores.enqueue(jugador)
-        print(self.listaPerdedores)
         self.numJugadores-=1
         self.generarCoordenadas()
         self.colaJugadoresGrafica=self.colaJugadores.copy()
 
     def generarTiempoAleatorio(self):
-        '''Genera un valor de tiempo aleatorio para que termine la ronda y salga un jugador'''
+        '''Genera un valor de tiempo aleatorio para que termine la ronda y salga un jugador. 
+        Este valor es almacenado en un atributo/variable'''
         inicioRonda=pygame.time.get_ticks()   
         if not self.debug:
             duracion=randint(self.numJugadores*2, self.numJugadores*(5-self.dificultad))*1000 # Este valor debe estar en milisegundos 
@@ -386,10 +387,6 @@ class JuegoPapa:
         print(duracion)
         self.finRonda=inicioRonda+duracion
         self.tiempoGenerado=True
-
-    def vaciarColaJug(self):
-        '''Se encarga de vaciar la cola con los nombres de jugadores'''
-        self.colaJugadores.clear()
 
     def llenarColaNombres(self):
         '''Se llena la cola de jugadores con nombres generados aleatoriamente'''
@@ -423,23 +420,34 @@ class JuegoPapa:
             self.listaRectTit.append(rectTitulo)
 
     def generarIndicaciones(self):
+        '''Se generan varios de las indicadiones que serán mostradas a lo largo del juego, 
+        estableciendo su texto y espacio en pantalla'''
         mensaje1="Desplazate con las flechas direccionales"
         indicSprite1 = self.diccFuentes["indicaciones"].render(mensaje1, True, (0, 0, 0, 0.4))
         mensaje2="Si deseas continuar presiona ENTER y si deseas volver presiona RETORNO"
         indicSprite2 = self.diccFuentes["indicaciones"].render(mensaje2, True, (0, 0, 0, 0.4))
-        self.listaIndic=[indicSprite1, indicSprite2]
+        mensaje3="Presiona espacio"
+        indicJuego = self.diccFuentes["indicaciones"].render(mensaje3, True, (255, 255, 255, 0.4))
+        self.listaIndic=[indicSprite1, indicSprite2, indicJuego]
         self.listaRectIndic=[]
-        for i, texto in enumerate(self.listaIndic):
+        for i, texto in enumerate(self.listaIndic[:-1]):
             rectIndic = texto.get_rect()
             rectIndic.centerx = 450
             rectIndic.centery = 440+40*i
             self.listaRectIndic.append(rectIndic)
+        rectJuego=indicJuego.get_rect()
+        rectJuego.centerx = 640
+        rectJuego.centery = 672
+        self.listaRectIndic.append(rectJuego)
 
     def ponerTitulo(self, numIndic:int):
-        '''Pone en pantalla el título del juego según los parámetros definidos en el método generarTitulos()'''
+        '''Pone en pantalla el título del juego necesitado según el parámetro introducido. 
+        Dicho parámetro es un valor entero'''
         self.pantalla.blit(self.listaTxtTit[numIndic], self.listaRectTit[numIndic])
 
     def ponerIndicacion(self, numIndic:int):
+        '''Pone en pantalla el título del juego necesitado según el parámetro introducido. 
+        Dicho parámetro es un valor entero'''
         self.pantalla.blit(self.listaIndic[numIndic], self.listaRectIndic[numIndic])
 
     def ubicarJugadores(self):
@@ -578,13 +586,18 @@ class JuegoPapa:
         self.pantalla.blit(imagen, (posImagen))
 
     def refrescarJuego(self):
-        '''Refresca el juego cada segundo para mantener los elementos gráficos actualizados'''
+        '''Refresca el juego cada segundo para mantener los elementos gráficos actualizados, 
+        incluyendo el fondo, el título, los jugadores y los botones'''
         self.ponerFondo(self.fondoJuego)
         self.ponerTitulo(0)
         self.ubicarJugadores()
         self.mostarPerdedores()
-        self.mostrarBotonesJuego() if self.modo==1 else self.mostrarBotonesPausa()
-        print(f"Coordenadas papa: {self.coordsPapa}")
+        if self.modo==1:
+            self.mostrarBotonesJuego() 
+            if self.nombreJugador==self.personaPapa:
+                self.ponerIndicacion(2)
+        else: 
+            self.mostrarBotonesPausa()
         pygame.draw.circle(self.pantalla, self.colorPapa, self.coordsPapa, self.radioPapa)
         pygame.draw.circle(self.pantalla, (0,0,0), self.coordsPapa, self.radioPapa, self.radioPapa//6)
         pygame.display.update()
@@ -674,7 +687,6 @@ class JuegoPapa:
                         tiempoActual=pygame.time.get_ticks()
                         if tiempoActual>self.finRonda:
                             self.jugadorEliminado=self.personaPapa
-                            self.colaJugadores.show()
                             pygame.time.wait(3000)
                             self.sacarJugador()
                             self.jugadorEliminado=None
