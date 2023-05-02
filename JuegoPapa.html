@@ -1,0 +1,724 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <title>Python: module JuegoPapa</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  </head>
+  <body bgcolor="#f0f0f8">
+    <table
+      width="100%"
+      cellspacing="0"
+      cellpadding="2"
+      border="0"
+      summary="heading"
+    >
+      <tr bgcolor="#7799ee">
+        <td valign="bottom">
+          &nbsp;<br />
+          <font color="#ffffff" face="helvetica, arial"
+            >&nbsp;<br /><big
+              ><big><strong>JuegoPapa</strong></big></big
+            ></font
+          >
+        </td>
+        <td align="right" valign="bottom">
+          <font color="#ffffff" face="helvetica, arial"
+            ><a href=".">index</a><br /><a href="JuegoPapa.py">JuegoPapa.py</a
+            ></font
+          >
+        </td>
+      </tr>
+    </table>
+    <p></p>
+    <p></p>
+    <table
+      width="100%"
+      cellspacing="0"
+      cellpadding="2"
+      border="0"
+      summary="section"
+    >
+      <tr bgcolor="#aa55cc">
+        <td colspan="3" valign="bottom">
+          &nbsp;<br />
+          <font color="#ffffff" face="helvetica, arial"
+            ><big><strong>Modules</strong></big></font
+          >
+        </td>
+      </tr>
+
+      <tr>
+        <td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+        <td>&nbsp;</td>
+        <td width="100%">
+          <table width="100%" summary="list">
+            <tr>
+              <td width="25%" valign="top">
+                <a href="https://docs.python.org/3/library/os.html">os</a><br />
+              </td>
+              <td width="25%" valign="top">
+                <a href="https://www.pygame.org/docs/">pygame</a><br />
+              </td>
+              <td width="25%" valign="top"></td>
+              <td width="25%" valign="top"></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <p></p>
+    <table
+      width="100%"
+      cellspacing="0"
+      cellpadding="2"
+      border="0"
+      summary="section"
+    >
+      <tr bgcolor="#ee77aa">
+        <td colspan="3" valign="bottom">
+          &nbsp;<br />
+          <font color="#ffffff" face="helvetica, arial"
+            ><big><strong>Classes</strong></big></font
+          >
+        </td>
+      </tr>
+
+      <tr>
+        <td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+        <td>&nbsp;</td>
+        <td width="100%">
+          <dl>
+            <dt>
+              <font face="helvetica, arial"
+                ><a href="https://docs.python.org/3/library/functions.html?highlight=object#object">builtins.object</a>
+              </font>
+            </dt>
+            <dd>
+              <dl>
+                <dt>
+                  <font face="helvetica, arial"
+                    ><a href="JuegoPapa.html#JuegoPapa">JuegoPapa</a>
+                  </font>
+                </dt>
+              </dl>
+            </dd>
+          </dl>
+          <p></p>
+          <table
+            width="100%"
+            cellspacing="0"
+            cellpadding="2"
+            border="0"
+            summary="section"
+          >
+            <tr bgcolor="#ffc8d8">
+              <td colspan="3" valign="bottom">
+                &nbsp;<br />
+                <font color="#000000" face="helvetica, arial"
+                  ><a name="JuegoPapa">class <strong>JuegoPapa</strong></a
+                  >(<a href="https://docs.python.org/3/library/functions.html?highlight=object#object">builtins.object</a>)</font
+                >
+              </td>
+            </tr>
+
+            <tr bgcolor="#ffc8d8">
+              <td rowspan="2"><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+              <td colspan="2">
+                <tt
+                  ><a href="#JuegoPapa">JuegoPapa</a
+                  >(ancho:&nbsp;int&nbsp;=&nbsp;900,&nbsp;alto:&nbsp;int&nbsp;=&nbsp;540,&nbsp;distanciaJugadores:&nbsp;int&nbsp;=&nbsp;100,&nbsp;colorPapa:&nbsp;tuple&nbsp;=&nbsp;(191,&nbsp;142,&nbsp;61,&nbsp;0.8),&nbsp;radioPapa:&nbsp;int&nbsp;=&nbsp;10,&nbsp;rutaMusicaFondo:&nbsp;str&nbsp;=&nbsp;'multimedia/music/backgroundSong.mp3',&nbsp;rutaFondoPpal:&nbsp;str&nbsp;=&nbsp;'multimedia/images/fondoPpal.jpg',&nbsp;rutaFondoJuego:&nbsp;str&nbsp;=&nbsp;'multimedia/images/fondoPtJuego.jpg',&nbsp;rutaMusicaTitulo:&nbsp;str&nbsp;=&nbsp;'multimedia/music/titleSong.mp3',&nbsp;rutaMusicaDerrota:&nbsp;str&nbsp;=&nbsp;'multimedia/music/defeatSong.mp3',&nbsp;rutaMusicaVictoria:&nbsp;str&nbsp;=&nbsp;'multimedia/music/victorySong.mp3')<br />
+                  &nbsp;<br />
+                  Clase&nbsp;que&nbsp;controla&nbsp;el&nbsp;funcionamiento&nbsp;del&nbsp;programa&nbsp;y&nbsp;del&nbsp;juego<br />&nbsp;</tt
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td width="100%">
+                Methods defined here:<br />
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-__init__"><strong>__init__</strong></a
+                    >(self, ancho: int = 900, alto: int = 540,
+                    distanciaJugadores: int = 100, colorPapa: tuple = (191, 142,
+                    61, 0.8), radioPapa: int = 10, rutaMusicaFondo: str =
+                    'multimedia/music/backgroundSong.mp3', rutaFondoPpal: str =
+                    'multimedia/images/fondoPpal.jpg', rutaFondoJuego: str =
+                    'multimedia/images/fondoPtJuego.jpg', rutaMusicaTitulo: str
+                    = 'multimedia/music/titleSong.mp3', rutaMusicaDerrota: str =
+                    'multimedia/music/defeatSong.mp3', rutaMusicaVictoria: str =
+                    'multimedia/music/victorySong.mp3')
+                  </dt>
+                  <dd>
+                    <tt
+                      >Método&nbsp;constructor&nbsp;de&nbsp;la&nbsp;clase&nbsp;<a
+                        href="#JuegoPapa"
+                        >JuegoPapa</a
+                      >.&nbsp;Establece&nbsp;los&nbsp;valores&nbsp;iniciales&nbsp;de&nbsp;las&nbsp;variables&nbsp;más&nbsp;importantes.&nbsp;<br />
+                      Todos&nbsp;sus&nbsp;parámetros&nbsp;son&nbsp;opcionales,&nbsp;para&nbsp;permitir&nbsp;una&nbsp;fácil&nbsp;modificación&nbsp;en&nbsp;caso&nbsp;de&nbsp;que&nbsp;se&nbsp;desee</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-cicloPrincipal"
+                      ><strong>cicloPrincipal</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Ciclo&nbsp;principal&nbsp;de&nbsp;ejecución&nbsp;del&nbsp;juego,&nbsp;en&nbsp;este&nbsp;suceden&nbsp;todos&nbsp;los&nbsp;eventos&nbsp;<br />
+                      y&nbsp;se&nbsp;muestran&nbsp;todas&nbsp;las&nbsp;ventanas&nbsp;relacionadas&nbsp;con&nbsp;el&nbsp;funcionamiento&nbsp;del&nbsp;juego.<br />
+                      También&nbsp;se&nbsp;encarga&nbsp;de&nbsp;manejar&nbsp;los&nbsp;eventos&nbsp;generados&nbsp;por&nbsp;el&nbsp;usuario</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-configDificultad"
+                      ><strong>configDificultad</strong></a
+                    >(self, nivel: int)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Cambia&nbsp;el&nbsp;nivel&nbsp;de&nbsp;dificultad&nbsp;del&nbsp;juego.&nbsp;Recibe&nbsp;como&nbsp;parámetro&nbsp;el&nbsp;nuevo&nbsp;nivel&nbsp;de&nbsp;dificultad.</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-configurarFuente"
+                      ><strong>configurarFuente</strong></a
+                    >(self, nombreFuente: str, tamanio: int)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Genera&nbsp;una&nbsp;nueva&nbsp;fuente&nbsp;y&nbsp;la&nbsp;almacena&nbsp;en&nbsp;un&nbsp;diccionario.<br />
+                      Recibe&nbsp;como&nbsp;parámetro&nbsp;el&nbsp;nombre&nbsp;y&nbsp;el&nbsp;tamaño&nbsp;que&nbsp;se&nbsp;le&nbsp;asignarán&nbsp;a&nbsp;la&nbsp;fuente</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-generarBotones"
+                      ><strong>generarBotones</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;encarga&nbsp;de&nbsp;cargar&nbsp;en&nbsp;memoria&nbsp;la&nbsp;información&nbsp;de&nbsp;varios&nbsp;de&nbsp;los&nbsp;botones&nbsp;<br />
+                      que&nbsp;serán&nbsp;mostrados&nbsp;durante&nbsp;el&nbsp;funcionamiento&nbsp;del&nbsp;programa</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-generarCoordenadas"
+                      ><strong>generarCoordenadas</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Genera&nbsp;las&nbsp;coordenadas&nbsp;en&nbsp;las&nbsp;que&nbsp;deben&nbsp;ubicarse&nbsp;los&nbsp;jugadores&nbsp;en&nbsp;pantalla,<br />
+                      haciendo&nbsp;uso&nbsp;de&nbsp;una&nbsp;función&nbsp;externa&nbsp;la&nbsp;cual&nbsp;calcula&nbsp;los&nbsp;vértices&nbsp;de&nbsp;un&nbsp;polígono</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-generarGanador"
+                      ><strong>generarGanador</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;encarga&nbsp;de&nbsp;generar&nbsp;los&nbsp;elementos&nbsp;gráficos&nbsp;de&nbsp;la&nbsp;sección&nbsp;donde&nbsp;se&nbsp;muestra&nbsp;al&nbsp;ganador</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-generarIndicaciones"
+                      ><strong>generarIndicaciones</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;generan&nbsp;varios&nbsp;de&nbsp;las&nbsp;indicadiones&nbsp;que&nbsp;serán&nbsp;mostradas&nbsp;a&nbsp;lo&nbsp;largo&nbsp;del&nbsp;juego,&nbsp;<br />
+                      estableciendo&nbsp;su&nbsp;texto&nbsp;y&nbsp;espacio&nbsp;en&nbsp;pantalla</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-generarTiempoAleatorio"
+                      ><strong>generarTiempoAleatorio</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Genera&nbsp;un&nbsp;valor&nbsp;de&nbsp;tiempo&nbsp;aleatorio&nbsp;para&nbsp;que&nbsp;termine&nbsp;la&nbsp;ronda&nbsp;y&nbsp;salga&nbsp;un&nbsp;jugador.&nbsp;<br />
+                      Este&nbsp;valor&nbsp;es&nbsp;almacenado&nbsp;en&nbsp;un&nbsp;atributo/variable</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-generarTitulos"
+                      ><strong>generarTitulos</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;generan&nbsp;varios&nbsp;de&nbsp;los&nbsp;títulos&nbsp;que&nbsp;serán&nbsp;mostrados&nbsp;a&nbsp;lo&nbsp;largo&nbsp;del&nbsp;juego,&nbsp;<br />
+                      estableciendo&nbsp;su&nbsp;texto&nbsp;y&nbsp;espacio&nbsp;en&nbsp;pantalla</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-hacerRectMargenPpal"
+                      ><strong>hacerRectMargenPpal</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Dibuja&nbsp;los&nbsp;bordes&nbsp;del&nbsp;rectángulo&nbsp;presentado&nbsp;en&nbsp;la&nbsp;pantalla&nbsp;de&nbsp;inicio</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-iniciarJuego"
+                      ><strong>iniciarJuego</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;encarga&nbsp;de&nbsp;iniciar&nbsp;el&nbsp;funcionamiento&nbsp;del&nbsp;juego&nbsp;como&nbsp;tal,&nbsp;mostrando&nbsp;los&nbsp;personajes,<br />
+                      la&nbsp;papa&nbsp;y&nbsp;sus&nbsp;respectivas&nbsp;animaciones</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-llenarColaNombres"
+                      ><strong>llenarColaNombres</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;llena&nbsp;la&nbsp;cola&nbsp;de&nbsp;jugadores&nbsp;con&nbsp;nombres&nbsp;generados&nbsp;aleatoriamente</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-llenarDiccSprites"
+                      ><strong>llenarDiccSprites</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;encarga&nbsp;de&nbsp;seleccionar&nbsp;sprites&nbsp;de&nbsp;manera&nbsp;aleatoria&nbsp;para&nbsp;los&nbsp;jugadores&nbsp;diferentes&nbsp;al&nbsp;usuario&nbsp;<br />
+                      y&nbsp;los&nbsp;almacena&nbsp;en&nbsp;un&nbsp;diccionario&nbsp;cuya&nbsp;clave&nbsp;es&nbsp;el&nbsp;nombre&nbsp;del&nbsp;jugador&nbsp;y&nbsp;el&nbsp;valor&nbsp;es&nbsp;un&nbsp;objeto<br />
+                      de&nbsp;la&nbsp;clase&nbsp;ControlSprite</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-mostrarBotonesJuego"
+                      ><strong>mostrarBotonesJuego</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Muestra&nbsp;en&nbsp;pantalla&nbsp;los&nbsp;botones&nbsp;de&nbsp;pausa&nbsp;y&nbsp;de&nbsp;menú&nbsp;principal&nbsp;mientras&nbsp;el&nbsp;usuario&nbsp;esta&nbsp;jugando</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-mostrarBotonesPausa"
+                      ><strong>mostrarBotonesPausa</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Muestra&nbsp;en&nbsp;pantalla&nbsp;los&nbsp;botones&nbsp;de&nbsp;reanudar&nbsp;y&nbsp;de&nbsp;menú&nbsp;principal&nbsp;cuando&nbsp;se&nbsp;pausa&nbsp;el&nbsp;juego</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-mostrarGanador"
+                      ><strong>mostrarGanador</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Muestra&nbsp;los&nbsp;elementos&nbsp;gráficos&nbsp;de&nbsp;la&nbsp;sección&nbsp;del&nbsp;ganador&nbsp;en&nbsp;la&nbsp;ventana&nbsp;y&nbsp;pone&nbsp;la&nbsp;música&nbsp;de&nbsp;fondo</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-mostrarMensaje"
+                      ><strong>mostrarMensaje</strong></a
+                    >(self, mensaje: str, color: tuple, cordenadaX: int,
+                    cordenadaY: int, tamañoDeLetra: int)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Permite&nbsp;mostrar&nbsp;un&nbsp;mensaje&nbsp;con&nbsp;una&nbsp;fuente&nbsp;por&nbsp;defecto&nbsp;de&nbsp;pygame.&nbsp;<br />
+                      Recibe&nbsp;varios&nbsp;parámetros:&nbsp;el&nbsp;texto&nbsp;del&nbsp;mensaje,&nbsp;el&nbsp;color&nbsp;de&nbsp;la&nbsp;letra,<br />
+                      las&nbsp;coordenadas&nbsp;en&nbsp;X&nbsp;y&nbsp;en&nbsp;Y,&nbsp;y&nbsp;el&nbsp;tamaño&nbsp;de&nbsp;la&nbsp;letra</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-mostrarMenuPpal"
+                      ><strong>mostrarMenuPpal</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;encarga&nbsp;de&nbsp;mostrar&nbsp;en&nbsp;pantalla&nbsp;varios&nbsp;de&nbsp;los&nbsp;elementos&nbsp;importantes<br />
+                      de&nbsp;la&nbsp;pantalla&nbsp;de&nbsp;inicio&nbsp;del&nbsp;juego,&nbsp;como&nbsp;el&nbsp;titulo&nbsp;y&nbsp;el&nbsp;boton&nbsp;de&nbsp;jugar</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-mostrarPerdedores"
+                      ><strong>mostrarPerdedores</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Muestra&nbsp;los&nbsp;perdedores&nbsp;en&nbsp;orden&nbsp;de&nbsp;salida.&nbsp;<br />
+                      Pone&nbsp;un&nbsp;pequeño&nbsp;título&nbsp;en&nbsp;pantalla&nbsp;junto&nbsp;con&nbsp;el&nbsp;nombre&nbsp;de&nbsp;cada&nbsp;perdedor&nbsp;y&nbsp;su&nbsp;sprite&nbsp;correspondiente</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-pantSelecSprite"
+                      ><strong>pantSelecSprite</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Esta&nbsp;funcion&nbsp;permite&nbsp;que&nbsp;el&nbsp;usuario&nbsp;seleccione&nbsp;un&nbsp;sprite&nbsp;de&nbsp;una&nbsp;lista&nbsp;de&nbsp;sprites&nbsp;disponibles.&nbsp;<br />
+                      El&nbsp;usuario&nbsp;puede&nbsp;desplazar&nbsp;el&nbsp;cursor&nbsp;con&nbsp;las&nbsp;flechas&nbsp;direccionales,&nbsp;<br />
+                      y&nbsp;puede&nbsp;seleccionar&nbsp;el&nbsp;sprite&nbsp;presionando&nbsp;la&nbsp;tecla&nbsp;Enter.</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-pausarJuego"
+                      ><strong>pausarJuego</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;encarga&nbsp;de&nbsp;poner&nbsp;el&nbsp;juego&nbsp;en&nbsp;un&nbsp;estado&nbsp;de&nbsp;pausa,&nbsp;<br />
+                      almacenando&nbsp;el&nbsp;estado&nbsp;de&nbsp;las&nbsp;variables&nbsp;importantes&nbsp;para&nbsp;reanudar&nbsp;el&nbsp;juego&nbsp;sin&nbsp;problema</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-ponerFondo"
+                      ><strong>ponerFondo</strong></a
+                    >(self, imagen: str)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Carga&nbsp;la&nbsp;imagen&nbsp;de&nbsp;fondo&nbsp;y&nbsp;la&nbsp;pone&nbsp;en&nbsp;pantalla.&nbsp;<br />
+                      Recibe&nbsp;como&nbsp;parámetro&nbsp;la&nbsp;ruta&nbsp;de&nbsp;la&nbsp;imagen</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-ponerIndicacion"
+                      ><strong>ponerIndicacion</strong></a
+                    >(self, numIndic: int)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Pone&nbsp;en&nbsp;pantalla&nbsp;el&nbsp;título&nbsp;del&nbsp;juego&nbsp;necesitado&nbsp;según&nbsp;el&nbsp;parámetro&nbsp;introducido.&nbsp;<br />
+                      Dicho&nbsp;parámetro&nbsp;es&nbsp;un&nbsp;valor&nbsp;entero</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-ponerMusica"
+                      ><strong>ponerMusica</strong></a
+                    >(self, archivo: str)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Pone&nbsp;la&nbsp;música&nbsp;de&nbsp;fondo.<br />
+                      Recibe&nbsp;como&nbsp;parámetro&nbsp;la&nbsp;ruta&nbsp;donde&nbsp;se&nbsp;encuentra&nbsp;el&nbsp;archivo&nbsp;<br />
+                      que&nbsp;contiene&nbsp;el&nbsp;recurso&nbsp;de&nbsp;audio</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-ponerTitulo"
+                      ><strong>ponerTitulo</strong></a
+                    >(self, numIndic: int)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Pone&nbsp;en&nbsp;pantalla&nbsp;el&nbsp;título&nbsp;del&nbsp;juego&nbsp;necesitado&nbsp;según&nbsp;el&nbsp;parámetro&nbsp;introducido.&nbsp;<br />
+                      Dicho&nbsp;parámetro&nbsp;es&nbsp;un&nbsp;valor&nbsp;entero</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-reanudarJuego"
+                      ><strong>reanudarJuego</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;encarga&nbsp;de&nbsp;reanudar&nbsp;el&nbsp;juego&nbsp;desde&nbsp;el&nbsp;estado&nbsp;de&nbsp;pausa&nbsp;<br />
+                      cargando&nbsp;las&nbsp;variables&nbsp;necesarias&nbsp;para&nbsp;reanudar&nbsp;correctamente&nbsp;el&nbsp;jeugo</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-refrescarJuego"
+                      ><strong>refrescarJuego</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Refresca&nbsp;el&nbsp;juego&nbsp;cada&nbsp;segundo&nbsp;para&nbsp;mantener&nbsp;los&nbsp;elementos&nbsp;gráficos&nbsp;actualizados,&nbsp;<br />
+                      incluyendo&nbsp;el&nbsp;fondo,&nbsp;el&nbsp;título,&nbsp;los&nbsp;jugadores&nbsp;y&nbsp;los&nbsp;botones</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-sacarJugador"
+                      ><strong>sacarJugador</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;encarga&nbsp;de&nbsp;eliminar&nbsp;a&nbsp;un&nbsp;jugador&nbsp;en&nbsp;el&nbsp;momento&nbsp;en&nbsp;que&nbsp;la&nbsp;papa&nbsp;deja&nbsp;de&nbsp;moverse.&nbsp;<br />
+                      Sacandolo&nbsp;de&nbsp;la&nbsp;cola&nbsp;de&nbsp;jugadores&nbsp;y&nbsp;generando&nbsp;nuevas&nbsp;coordenadas&nbsp;para&nbsp;los&nbsp;jugadores&nbsp;actuales</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-selecNivel"
+                      ><strong>selecNivel</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Genera&nbsp;la&nbsp;interfaz&nbsp;en&nbsp;la&nbsp;cuál&nbsp;el&nbsp;usuario&nbsp;puede&nbsp;seleccionar&nbsp;el&nbsp;nivel&nbsp;de&nbsp;dificultad&nbsp;deseado.<br />
+                      Dicha&nbsp;dificultad&nbsp;podrá&nbsp;ser&nbsp;seleccionada&nbsp;usando&nbsp;las&nbsp;flechas&nbsp;direccionales&nbsp;y&nbsp;la&nbsp;tecla&nbsp;enter&nbsp;<br />
+                      o&nbsp;con&nbsp;un&nbsp;click&nbsp;del&nbsp;boton&nbsp;izquierdo&nbsp;del&nbsp;mouse</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-setJugadores"
+                      ><strong>setJugadores</strong></a
+                    >(self, numJugadores: int)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Recibe&nbsp;como&nbsp;parámetro&nbsp;el&nbsp;número&nbsp;de&nbsp;jugadores,&nbsp;lo&nbsp;guarda&nbsp;como&nbsp;un&nbsp;atributo&nbsp;<br />
+                      y&nbsp;genera&nbsp;nombres&nbsp;aleatorios&nbsp;para&nbsp;los&nbsp;jugadores&nbsp;extra&nbsp;(diferentes&nbsp;al&nbsp;personaje&nbsp;del&nbsp;jugador)</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-setNombreJugador"
+                      ><strong>setNombreJugador</strong></a
+                    >(self, nombreJugador: str)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Recibe&nbsp;como&nbsp;parámetro&nbsp;el&nbsp;nombre&nbsp;del&nbsp;jugador&nbsp;y&nbsp;lo&nbsp;asigna&nbsp;a&nbsp;un&nbsp;atributo&nbsp;de&nbsp;la&nbsp;instancia&nbsp;de&nbsp;la&nbsp;clase&nbsp;<a
+                        href="#JuegoPapa"
+                        >JuegoPapa</a
+                      >.<br />
+                      También&nbsp;lo&nbsp;agrega&nbsp;a&nbsp;la&nbsp;cola&nbsp;de&nbsp;jugadores</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-setSpriteJug"
+                      ><strong>setSpriteJug</strong></a
+                    >(self, rutaSprite: str)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;selecciona&nbsp;el&nbsp;sprite&nbsp;del&nbsp;jugador.&nbsp;<br />
+                      Recibe&nbsp;como&nbsp;parámetro&nbsp;la&nbsp;ruta&nbsp;del&nbsp;archivo&nbsp;que&nbsp;contiene&nbsp;el&nbsp;mapa&nbsp;del&nbsp;sprite</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-ubicarJugadores"
+                      ><strong>ubicarJugadores</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Ubica&nbsp;a&nbsp;cada&nbsp;jugador&nbsp;en&nbsp;lugar&nbsp;que&nbsp;le&nbsp;corresponde&nbsp;en&nbsp;la&nbsp;ventana</tt
+                    >
+                  </dd>
+                </dl>
+
+                <dl>
+                  <dt>
+                    <a name="JuegoPapa-volverMenuPpal"
+                      ><strong>volverMenuPpal</strong></a
+                    >(self)
+                  </dt>
+                  <dd>
+                    <tt
+                      >Se&nbsp;encarga&nbsp;de&nbsp;cerrar&nbsp;la&nbsp;sesión&nbsp;de&nbsp;juego&nbsp;y&nbsp;volver&nbsp;al&nbsp;menú&nbsp;principal,&nbsp;<br />
+                      cambiando&nbsp;la&nbsp;música&nbsp;y&nbsp;modificando&nbsp;el&nbsp;tamaño&nbsp;de&nbsp;la&nbsp;ventana</tt
+                    >
+                  </dd>
+                </dl>
+
+                <hr />
+                Data descriptors defined here:<br />
+                <dl>
+                  <dt><strong>__dict__</strong></dt>
+                  <dd>
+                    <tt
+                      >dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt
+                    >
+                  </dd>
+                </dl>
+                <dl>
+                  <dt><strong>__weakref__</strong></dt>
+                  <dd>
+                    <tt
+                      >list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt
+                    >
+                  </dd>
+                </dl>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <p></p>
+    <table
+      width="100%"
+      cellspacing="0"
+      cellpadding="2"
+      border="0"
+      summary="section"
+    >
+      <tr bgcolor="#eeaa77">
+        <td colspan="3" valign="bottom">
+          &nbsp;<br />
+          <font color="#ffffff" face="helvetica, arial"
+            ><big><strong>Functions</strong></big></font
+          >
+        </td>
+      </tr>
+
+      <tr>
+        <td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+        <td>&nbsp;</td>
+        <td width="100%">
+          <dl>
+            <dt>
+              <a name="-sin"><strong>sin</strong></a
+              >(x, /)
+            </dt>
+            <dd>
+              <tt
+                >Return&nbsp;the&nbsp;sine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt
+              >
+            </dd>
+          </dl>
+        </td>
+      </tr>
+    </table>
+    <p></p>
+    <table
+      width="100%"
+      cellspacing="0"
+      cellpadding="2"
+      border="0"
+      summary="section"
+    >
+      <tr bgcolor="#55aa55">
+        <td colspan="3" valign="bottom">
+          &nbsp;<br />
+          <font color="#ffffff" face="helvetica, arial"
+            ><big><strong>Data</strong></big></font
+          >
+        </td>
+      </tr>
+
+      <tr>
+        <td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+        <td>&nbsp;</td>
+        <td width="100%"><strong>pi</strong> = 3.141592653589793</td>
+      </tr>
+    </table>
+  </body>
+</html>
