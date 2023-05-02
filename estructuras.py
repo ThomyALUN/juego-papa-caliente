@@ -1,6 +1,3 @@
-from random import randint
-import time 
-
 class Queue:
     '''Cola implementada utilizando una lista nativa de Python'''
     def __init__(self):
